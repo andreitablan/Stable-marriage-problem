@@ -1,8 +1,15 @@
+from tkinter import *
+
 # FII - AI Project
 # Ciuta Andrei Calin
 # Leagan Dan Adrian
 # Tablan Andrei Razvan
 # Volentir Alexandra
+
+root = Tk()
+myLabel = Label(root, text="Welcome!")
+myLabel.pack()
+root.mainloop()
 
 '''
 class Person:
