@@ -1,5 +1,6 @@
 from tkinter import *
-from PIL import Image,ImageTk
+from PIL import Image, ImageTk
+
 
 # FII - AI Project
 # Ciuta Andrei Calin
@@ -7,14 +8,57 @@ from PIL import Image,ImageTk
 # Tablan Andrei Razvan
 # Volentir Alexandra
 
+
+def faq():
+    print("pressed the faq")
+
+
+def home():
+    print("pressed the home")
+
+
+def match():
+    print("pressed the match")
+
+def alg():
+    print("pressed the alg")
+
+
 def start_app():
     root = Tk()
-    root.geometry("1280x832")
+    root.geometry("1024x768")
     root.configure(bg='#FFBBBC')
-    image = PhotoImage(file="picture.png")
-    myLabel = Label(root, text="Welcome!", image=image)
-    myLabel.pack()
+    image = (Image.open("picture.png"))
+    resized_image = image.resize((480,370), Image.ANTIALIAS)
+    new_image = ImageTk.PhotoImage(resized_image)
+    Label(root, image=new_image, borderwidth=0).place(x=45, y=200)
+
+    lines = (Image.open("lines.png"))
+    resized_image_lines = lines.resize((309, 216), Image.ANTIALIAS)
+    new_image_lines = ImageTk.PhotoImage(resized_image_lines)
+    Label(root, image=new_image_lines, borderwidth=0).place(x=720, y=170)
+
+    Label(root, text="TEST", borderwidth=0, bg="#FFBBBC", fg='#F04755', font=('Montserrat 25')).place(x=600, y=500)
+    Label(root, text="THE MOST REALISTIC", borderwidth=0, bg="#FFBBBC", fg='#F04755', font=('Montserrat 25')).place(x=600, y=535)
+    Label(root, text="COUPLE MATCHING APP", borderwidth=0, bg="#FFBBBC", fg='#F04755', font=('Montserrat 25')).place(x=600, y=570)
+    Label(root, text="NOW", borderwidth=0, bg="#FFBBBC", fg='#F04755', font=('Montserrat 25 bold italic')).place(x=600, y=605)
+
+    Label(root, text="Ⓒ UAIC team", borderwidth=0, bg="#FFBBBC", fg='#F04755', font=('Montserrat 16 bold')).place(x=450, y=730)
+
+    home_btn = Button(root, text="Home", borderwidth=0, bg="#FFBBBC", fg='#000000',  font=('Montserrat 14 bold'), command=home)
+    home_btn.place(x=600, y=50)
+    faq_btn = Button(root, text="FAQ", borderwidth=0, bg="#FFBBBC", fg='#000000',  font=('Montserrat 14 bold'), command=faq)
+    faq_btn.place(x=700, y=50)
+    match_img = PhotoImage(file="make_a_match_btn.png")
+    match_btn = Button(root, image=match_img, borderwidth=0, bg="#FFBBBC", command=match)
+    match_btn.place(x=800, y=45)
+
+    alg_img=PhotoImage(file="alg.png")
+    alg_btn = Button(root, image=alg_img, borderwidth=0, bg="#FFBBBC", command=alg)
+    alg_btn.place(x=550, y=320)
+
     root.mainloop()
+
 
 '''
 class Person:
@@ -27,6 +71,7 @@ class Person:
     def set_married(self):
         self.married = True
 '''
+
 
 def is_stable(states, preferences_men, preferences_women, men, women):
     wives = []
@@ -104,4 +149,4 @@ def solve_problem():
 
 if __name__ == '__main__':
     start_app()
-    #solve_problem()
+    # solve_problem()
