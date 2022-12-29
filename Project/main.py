@@ -1,4 +1,5 @@
 from tkinter import *
+from PIL import Image,ImageTk
 
 # FII - AI Project
 # Ciuta Andrei Calin
@@ -6,10 +7,14 @@ from tkinter import *
 # Tablan Andrei Razvan
 # Volentir Alexandra
 
-root = Tk()
-myLabel = Label(root, text="Welcome!")
-myLabel.pack()
-root.mainloop()
+def start_app():
+    root = Tk()
+    root.geometry("1280x832")
+    root.configure(bg='#FFBBBC')
+    image = PhotoImage(file="picture.png")
+    myLabel = Label(root, text="Welcome!", image=image)
+    myLabel.pack()
+    root.mainloop()
 
 '''
 class Person:
@@ -22,7 +27,6 @@ class Person:
     def set_married(self):
         self.married = True
 '''
-
 
 def is_stable(states, preferences_men, preferences_women, men, women):
     wives = []
@@ -99,5 +103,5 @@ def solve_problem():
 
 
 if __name__ == '__main__':
-    print('Welcome')
-    solve_problem()
+    start_app()
+    #solve_problem()
