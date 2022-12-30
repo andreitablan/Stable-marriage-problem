@@ -1,12 +1,16 @@
 from tkinter import *
-from PIL import Image, ImageTk
 
+from PIL import Image, ImageTk
 
 # FII - AI Project
 # Ciuta Andrei Calin
 # Leagan Dan Adrian
 # Tablan Andrei Razvan
 # Volentir Alexandra
+
+root = Tk()
+f1 = Frame(root)
+f2 = Frame(root)
 
 
 def faq():
@@ -20,43 +24,81 @@ def home():
 def match():
     print("pressed the match")
 
-def alg():
-    print("pressed the alg")
+
+def raise_frame(frame):
+    frame.tkraise()
+
+
+def description_page():
+    root.geometry("1024x768")
+    root.configure(bg='#FFBBBC')
+    f2.configure(bg='#FFBBBC')
+
+
+    Label(f2, text="How is our app working", borderwidth=0, bg="#FFBBBC", fg='#F04755', font='Montserrat 25 bold').pack(
+        side=TOP, anchor=W, padx=100, pady=130)
+    Label(f2,
+          text="➊ First the user sends the input using the graphic interface, choosing the boys\nand girls, their " +
+               "preferences and which algorithm our app should use\n(Greedy or Backtracking).\n\n➋ Second, the program " +
+               "runs the algorithm for the given instance and finds a \nresult, considering every person's preferences." +
+               "\n\n➌ Finally, the result is displayed on the app's screen.",
+          borderwidth=0, bg="#FFBBBC", fg='#F04755', font=('Montserrat 20'), justify=LEFT).pack(side=LEFT, anchor=N,
+                                                                                                padx=50, pady=0)
+    back_arrow = PhotoImage(file="back_arrow.png")
+
+    #back_btn = Button(f2, text="Back", borderwidth=0, bg="#FFBBBC", fg='#000000', font='Montserrat 14 bold',
+    #                 image=back_arrow,command=start_app,relief=SUNKEN,highlightthickness=0,highlightcolor="#FFBBBC",highlightbackground="#FFBBBC", overrelief=SUNKEN)
+
+    back_btn = Button(f2, text="Back", borderwidth=0, bg="#FFBBBC", fg='#000000', font='Montserrat 14 bold',
+                      image=back_arrow,command=start_app)
+    back_btn.place(x=30, y=30)
+    raise_frame(f2)
+    root.mainloop()
 
 
 def start_app():
-    root = Tk()
+    for frame in (f1, f2):
+        frame.grid(row=0, column=0, sticky='news')
+
     root.geometry("1024x768")
     root.configure(bg='#FFBBBC')
+    f1.configure(bg='#FFBBBC')
     image = (Image.open("picture.png"))
-    resized_image = image.resize((480,370), Image.ANTIALIAS)
+    resized_image = image.resize((480, 370), Image.ANTIALIAS)
     new_image = ImageTk.PhotoImage(resized_image)
-    Label(root, image=new_image, borderwidth=0).place(x=45, y=200)
+    Label(f1, image=new_image, borderwidth=0).place(x=45, y=200)
 
     lines = (Image.open("lines.png"))
     resized_image_lines = lines.resize((309, 216), Image.ANTIALIAS)
     new_image_lines = ImageTk.PhotoImage(resized_image_lines)
-    Label(root, image=new_image_lines, borderwidth=0).place(x=720, y=170)
+    Label(f1, image=new_image_lines, borderwidth=0).place(x=720, y=170)
 
-    Label(root, text="TEST", borderwidth=0, bg="#FFBBBC", fg='#F04755', font=('Montserrat 25')).place(x=600, y=500)
-    Label(root, text="THE MOST REALISTIC", borderwidth=0, bg="#FFBBBC", fg='#F04755', font=('Montserrat 25')).place(x=600, y=535)
-    Label(root, text="COUPLE MATCHING APP", borderwidth=0, bg="#FFBBBC", fg='#F04755', font=('Montserrat 25')).place(x=600, y=570)
-    Label(root, text="NOW", borderwidth=0, bg="#FFBBBC", fg='#F04755', font=('Montserrat 25 bold italic')).place(x=600, y=605)
+    Label(f1, text="TEST", borderwidth=0, bg="#FFBBBC", fg='#F04755', font='Montserrat 25').pack(padx=600, pady=500)
+    Label(f1, text="THE MOST REALISTIC", borderwidth=0, bg="#FFBBBC", fg='#F04755', font='Montserrat 25').place(x=600,
+                                                                                                                  y=535)
+    Label(f1, text="COUPLE MATCHING APP", borderwidth=0, bg="#FFBBBC", fg='#F04755', font='Montserrat 25').place(
+        x=600, y=570)
+    Label(f1, text="NOW", borderwidth=0, bg="#FFBBBC", fg='#F04755', font='Montserrat 25 bold italic').place(x=600,
+                                                                                                               y=605)
 
-    Label(root, text="Ⓒ UAIC team", borderwidth=0, bg="#FFBBBC", fg='#F04755', font=('Montserrat 16 bold')).place(x=450, y=730)
+    Label(f1, text="Ⓒ UAIC team", borderwidth=0, bg="#FFBBBC", fg='#F04755', font='Montserrat 16 bold').place(x=450,
+                                                                                                                y=730)
 
-    home_btn = Button(root, text="Home", borderwidth=0, bg="#FFBBBC", fg='#000000',  font=('Montserrat 14 bold'), command=home)
+    home_btn = Button(f1, text="Home", borderwidth=0, bg="#FFBBBC", fg='#000000', font='Montserrat 14 bold',
+                      command=home)
     home_btn.place(x=600, y=50)
-    faq_btn = Button(root, text="FAQ", borderwidth=0, bg="#FFBBBC", fg='#000000',  font=('Montserrat 14 bold'), command=faq)
+    faq_btn = Button(f1, text="FAQ", borderwidth=0, bg="#FFBBBC", fg='#000000', font='Montserrat 14 bold',
+                     command=faq)
     faq_btn.place(x=700, y=50)
     match_img = PhotoImage(file="make_a_match_btn.png")
-    match_btn = Button(root, image=match_img, borderwidth=0, bg="#FFBBBC", command=match)
-    match_btn.place(x=800, y=45)
+    match_btn = Button(f1, image=match_img, borderwidth=0, bg="#FFBBBC", command=match)
+    match_btn.place(x=780, y=40)
 
-    alg_img=PhotoImage(file="alg.png")
-    alg_btn = Button(root, image=alg_img, borderwidth=0, bg="#FFBBBC", command=alg)
+    alg_img = PhotoImage(file="alg.png")
+    alg_btn = Button(f1, image=alg_img, borderwidth=0, bg="#FFBBBC", command=description_page)
     alg_btn.place(x=550, y=320)
 
+    raise_frame(f1)
     root.mainloop()
 
 
