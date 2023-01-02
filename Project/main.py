@@ -1,5 +1,5 @@
 from tkinter import *
-
+import random
 from PIL import Image, ImageTk
 
 # FII - AI Project
@@ -11,55 +11,185 @@ from PIL import Image, ImageTk
 root = Tk()
 f1 = Frame(root)
 f2 = Frame(root)
-
-
-def faq():
-    print("pressed the faq")
-
-
-def home():
-    print("pressed the home")
-
-
-def match():
-    print("pressed the match")
+f3 = Frame(root)
+f4 = Frame(root)
+f5 = Frame(root)
+f6 = Frame(root)
 
 
 def raise_frame(frame):
     frame.tkraise()
 
 
-def description_page():
+def show_solution():
+    for widgets in f6.winfo_children():
+        widgets.destroy()
     root.geometry("1024x768")
     root.configure(bg='#FFBBBC')
-    f2.configure(bg='#FFBBBC')
+    f6.configure(bg='#FFBBBC')
 
-
-    Label(f2, text="How is our app working", borderwidth=0, bg="#FFBBBC", fg='#F04755', font='Montserrat 25 bold').pack(
+    Label(f6, text="The solution is", borderwidth=0, bg="#FFBBBC", fg='#F04755', font='Montserrat 25 bold').pack(
         side=TOP, anchor=W, padx=100, pady=130)
-    Label(f2,
-          text="➊ First the user sends the input using the graphic interface, choosing the boys\nand girls, their " +
-               "preferences and which algorithm our app should use\n(Greedy or Backtracking).\n\n➋ Second, the program " +
-               "runs the algorithm for the given instance and finds a \nresult, considering every person's preferences." +
-               "\n\n➌ Finally, the result is displayed on the app's screen.",
-          borderwidth=0, bg="#FFBBBC", fg='#F04755', font=('Montserrat 20'), justify=LEFT).pack(side=LEFT, anchor=N,
-                                                                                                padx=50, pady=0)
-    back_arrow = PhotoImage(file="back_arrow.png")
 
-    #back_btn = Button(f2, text="Back", borderwidth=0, bg="#FFBBBC", fg='#000000', font='Montserrat 14 bold',
-    #                 image=back_arrow,command=start_app,relief=SUNKEN,highlightthickness=0,highlightcolor="#FFBBBC",highlightbackground="#FFBBBC", overrelief=SUNKEN)
 
-    back_btn = Button(f2, text="Back", borderwidth=0, bg="#FFBBBC", fg='#000000', font='Montserrat 14 bold',
-                      image=back_arrow,command=start_app)
-    back_btn.place(x=30, y=30)
-    raise_frame(f2)
+
+    home_btn = Button(f6, text="Home", borderwidth=0, bg="#FFBBBC", fg='#000000', font='Montserrat 14 bold',
+                      command=home)
+    home_btn.place(x=600, y=50)
+    faq_btn = Button(f6, text="FAQ", borderwidth=0, bg="#FFBBBC", fg='#000000', font='Montserrat 14 bold',
+                     command=faq)
+    faq_btn.place(x=700, y=50)
+    match_img = PhotoImage(file="make_a_match_btn.png")
+    match_btn = Button(f6, image=match_img, borderwidth=0, bg="#FFBBBC", command=match)
+    match_btn.place(x=780, y=40)
+
+    raise_frame(f6)
     root.mainloop()
 
 
-def start_app():
-    for frame in (f1, f2):
-        frame.grid(row=0, column=0, sticky='news')
+def choose_preferences(number_of_couples, solving_method):
+    for widgets in f5.winfo_children():
+        widgets.destroy()
+    root.geometry("1024x768")
+    root.configure(bg='#FFBBBC')
+    f5.configure(bg='#FFBBBC')
 
+    Label(f5, text="number of preferences", borderwidth=0, bg="#FFBBBC", fg='#F04755', font='Montserrat 25 bold').pack(
+        side=TOP, anchor=W, padx=100, pady=130)
+
+    home_btn = Button(f5, text="Home", borderwidth=0, bg="#FFBBBC", fg='#000000', font='Montserrat 14 bold',
+                      command=home)
+    home_btn.place(x=600, y=50)
+    faq_btn = Button(f5, text="FAQ", borderwidth=0, bg="#FFBBBC", fg='#000000', font='Montserrat 14 bold',
+                     command=faq)
+    faq_btn.place(x=700, y=50)
+    match_img = PhotoImage(file="make_a_match_btn.png")
+    match_btn = Button(f5, image=match_img, borderwidth=0, bg="#FFBBBC", command=match)
+    match_btn.place(x=780, y=40)
+
+    raise_frame(f5)
+    root.mainloop()
+
+
+def random_preferences(number_of_couples, solving_method):
+    preferences_men = {}
+    preferences_women = {}
+    list_of_men = []
+    list_of_women = []
+    for index in range(1, int(number_of_couples) + 1):
+        list_of_men.append(index)
+        list_of_women.append(chr(index + 64))
+    for man in list_of_men:
+        random.shuffle(list_of_women)
+        preferences_men[man] = list(list_of_women)
+    for woman in list_of_women:
+        random.shuffle(list_of_men)
+        preferences_women[woman] = list(list_of_men)
+    solve_problem(preferences_men,preferences_women,solving_method)
+
+
+def submit_preferences(number_of_couples, solving_method, preferences):
+    print(number_of_couples)
+    print(solving_method)
+    print(preferences)
+    if preferences == "Manual":
+        choose_preferences(number_of_couples, solving_method)
+    else:
+        random_preferences(number_of_couples, solving_method)
+
+
+def match():
+    print("pressed the match")
+    for widgets in f4.winfo_children():
+        widgets.destroy()
+    root.geometry("1024x768")
+    root.configure(bg='#FFBBBC')
+    f4.configure(bg='#FFBBBC')
+
+    Label(f4, text="Number of couples", borderwidth=0, bg="#FFBBBC", fg='#F04755', font='Montserrat 25 bold').pack(
+        side=TOP, anchor=W, padx=300, pady=250)
+    Label(f4, text="Solving method", borderwidth=0, bg="#FFBBBC", fg='#F04755', font='Montserrat 25 bold').place(x=300,
+                                                                                                                 y=350)
+    Label(f4, text="Preferences", borderwidth=0, bg="#FFBBBC", fg='#F04755', font='Montserrat 25 bold').place(x=330,
+                                                                                                              y=450)
+
+    couples_variable = StringVar(f4)
+    couples_variable.set("1")
+    couples = OptionMenu(f4, couples_variable, "1", "2", "3", "4", "5", "6", "7", "8", "9", "10")
+    couples.place(x=630, y=250)
+    couples.config(borderwidth=0, highlightbackground='#F04755', highlightthickness=3, bg="#FFFFFF", fg='#F04755',
+                   font='Montserrat 14 bold')
+
+    solving_method_variable = StringVar(f4)
+    solving_method_variable.set("Greedy")
+    method = OptionMenu(f4, solving_method_variable, "Greedy", "Backtracking")
+    method.place(x=580, y=355)
+    method.config(borderwidth=0, highlightbackground='#F04755', highlightthickness=3, bg="#FFFFFF", fg='#F04755',
+                  font='Montserrat 14 bold')
+
+    preferences_variable = StringVar(f4)
+    preferences_variable.set("Random")
+    preferences = OptionMenu(f4, preferences_variable, "Random", "Manual")
+    preferences.place(x=565, y=455)
+    preferences.config(borderwidth=0, highlightbackground='#F04755', highlightthickness=3, bg="#FFFFFF", fg='#F04755',
+                       font='Montserrat 14 bold')
+
+    submit_img = PhotoImage(file="submit.png")
+    submit_btn = Button(f4, image=submit_img, borderwidth=0, bg="#FFBBBC",
+                        command=lambda: submit_preferences(couples_variable.get(), solving_method_variable.get(),
+                                                           preferences_variable.get()))
+    submit_btn.place(x=450, y=550)
+
+    Label(f4, text="Ⓒ UAIC team", borderwidth=0, bg="#FFBBBC", fg='#F04755', font='Montserrat 16 bold').place(x=450,
+                                                                                                              y=730)
+
+    home_btn = Button(f4, text="Home", borderwidth=0, bg="#FFBBBC", fg='#000000', font='Montserrat 14 bold',
+                      command=home)
+    home_btn.place(x=600, y=50)
+    faq_btn = Button(f4, text="FAQ", borderwidth=0, bg="#FFBBBC", fg='#000000', font='Montserrat 14 bold',
+                     command=faq)
+    faq_btn.place(x=700, y=50)
+
+    match_img = PhotoImage(file="make_a_match_btn.png")
+    match_btn = Button(f4, image=match_img, borderwidth=0, bg="#FFBBBC", command=match)
+    match_btn.place(x=780, y=40)
+
+    raise_frame(f4)
+    root.mainloop()
+
+
+def faq():
+    for widgets in f3.winfo_children():
+        widgets.destroy()
+    root.geometry("1024x768")
+    root.configure(bg='#FFBBBC')
+    f3.configure(bg='#FFBBBC')
+
+    Label(f3, text="Questions and Answers", borderwidth=0, bg="#FFBBBC", fg='#F04755', font='Montserrat 25 bold').pack(
+        side=TOP, anchor=W, padx=100, pady=130)
+    Label(f3,
+          text=" Q: \n A: \n\n Q: \n A: \n\n Q: \n A:",
+          borderwidth=0, bg="#FFBBBC", fg='#F04755', font=('Montserrat 20'), justify=LEFT).pack(side=LEFT, anchor=N,
+                                                                                                padx=50, pady=0)
+
+    home_btn = Button(f3, text="Home", borderwidth=0, bg="#FFBBBC", fg='#000000', font='Montserrat 14 bold',
+                      command=home)
+    home_btn.place(x=600, y=50)
+    faq_btn = Button(f3, text="FAQ", borderwidth=0, bg="#FFBBBC", fg='#000000', font='Montserrat 14 bold',
+                     command=faq)
+    faq_btn.place(x=700, y=50)
+    match_img = PhotoImage(file="make_a_match_btn.png")
+    match_btn = Button(f3, image=match_img, borderwidth=0, bg="#FFBBBC", command=match)
+    match_btn.place(x=780, y=40)
+
+    raise_frame(f3)
+    root.mainloop()
+
+
+def home():
+    for widgets in f1.winfo_children():
+        widgets.destroy()
+    print("pressed the home")
     root.geometry("1024x768")
     root.configure(bg='#FFBBBC')
     f1.configure(bg='#FFBBBC')
@@ -75,14 +205,14 @@ def start_app():
 
     Label(f1, text="TEST", borderwidth=0, bg="#FFBBBC", fg='#F04755', font='Montserrat 25').pack(padx=600, pady=500)
     Label(f1, text="THE MOST REALISTIC", borderwidth=0, bg="#FFBBBC", fg='#F04755', font='Montserrat 25').place(x=600,
-                                                                                                                  y=535)
+                                                                                                                y=535)
     Label(f1, text="COUPLE MATCHING APP", borderwidth=0, bg="#FFBBBC", fg='#F04755', font='Montserrat 25').place(
         x=600, y=570)
     Label(f1, text="NOW", borderwidth=0, bg="#FFBBBC", fg='#F04755', font='Montserrat 25 bold italic').place(x=600,
-                                                                                                               y=605)
+                                                                                                             y=605)
 
     Label(f1, text="Ⓒ UAIC team", borderwidth=0, bg="#FFBBBC", fg='#F04755', font='Montserrat 16 bold').place(x=450,
-                                                                                                                y=730)
+                                                                                                              y=730)
 
     home_btn = Button(f1, text="Home", borderwidth=0, bg="#FFBBBC", fg='#000000', font='Montserrat 14 bold',
                       command=home)
@@ -102,6 +232,37 @@ def start_app():
     root.mainloop()
 
 
+def description_page():
+    for widgets in f2.winfo_children():
+        widgets.destroy()
+    root.geometry("1024x768")
+    root.configure(bg='#FFBBBC')
+    f2.configure(bg='#FFBBBC')
+
+    Label(f2, text="How is our app working", borderwidth=0, bg="#FFBBBC", fg='#F04755', font='Montserrat 25 bold').pack(
+        side=TOP, anchor=W, padx=100, pady=130)
+    Label(f2,
+          text="➊ First the user sends the input using the graphic interface, choosing the boys\nand girls, their " +
+               "preferences and which algorithm our app should use\n(Greedy or Backtracking).\n\n➋ Second, the program " +
+               "runs the algorithm for the given instance and finds a \nresult, considering every person's preferences." +
+               "\n\n➌ Finally, the result is displayed on the app's screen.",
+          borderwidth=0, bg="#FFBBBC", fg='#F04755', font=('Montserrat 20'), justify=LEFT).pack(side=LEFT, anchor=N,
+                                                                                                padx=50, pady=0)
+    back_arrow = PhotoImage(file="back_arrow.png")
+
+    back_btn = Button(f2, text="Back", borderwidth=0, bg="#FFBBBC", fg='#000000', font='Montserrat 14 bold',
+                      image=back_arrow, command=start_app)
+    back_btn.place(x=30, y=30)
+    raise_frame(f2)
+    root.mainloop()
+
+
+def start_app():
+    for frame in (f1, f2, f3, f4, f5, f6):
+        frame.grid(row=0, column=0, sticky='news')
+    home()
+
+
 '''
 class Person:
     def __init__(self, id, preferences, count):
@@ -113,50 +274,6 @@ class Person:
     def set_married(self):
         self.married = True
 '''
-
-
-def is_stable(states, preferences_men, preferences_women, men, women):
-    wives = []
-    for man1 in preferences_men.keys():
-        for man2 in preferences_men.keys():
-            for index in range(0, len(states[man1])):
-                if states[man1][index] == 1:
-                    woman = women[index]
-                    print(man1, ' ', woman)
-
-
-def update_states(states, preferences_men, preferences_women, man, woman, index_woman, index_man):
-    states[man][index_woman] = 1
-    states[woman][index_man] = 1
-
-    for man_key in preferences_men.keys():
-        if man_key != man:
-            states[man_key][index_woman] = -1
-    for woman_key in preferences_women.keys():
-        if woman_key != woman:
-            states[woman_key][index_man] = -1
-    return states
-
-
-def greedy_by_men(states, preferences_men, preferences_women):
-    for key, value in preferences_men.items():
-        for preference in value:
-            index_woman = list(preferences_women).index(preference)
-            index_man = list(preferences_men).index(key)
-            if states[key][index_woman] == 0:
-                states = update_states(states, preferences_men, preferences_women, key, preference, index_woman,
-                                       index_man)
-                break
-    return states
-
-
-def create_states(preferences_men, preferences_women):
-    states = {}
-    for key in preferences_men.keys():
-        states[key] = [0 for x in range(0, len(preferences_women.keys()))]
-    for key in preferences_women.keys():
-        states[key] = [0 for x in range(0, len(preferences_men.keys()))]
-    return states
 
 
 def create_person_list(dictionary):
@@ -178,15 +295,11 @@ def read_input(path):
     return preferences
 
 
-def solve_problem():
-    preferences_men = read_input("input_men.txt")
-    preferences_women = read_input("input_women.txt")
+def solve_problem(preferences_men,preferences_women,solving_method):
+    #preferences_men = read_input("input_men.txt")
+    #preferences_women = read_input("input_women.txt")
     men = create_person_list(preferences_men)
     women = create_person_list(preferences_women)
-    states = create_states(preferences_men, preferences_women)
-    states = greedy_by_men(states, preferences_men, preferences_women)
-    print(states)
-    is_stable(states, preferences_men, preferences_women, men, women)
 
 
 if __name__ == '__main__':
