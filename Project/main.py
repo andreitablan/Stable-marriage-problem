@@ -7,10 +7,10 @@ import random
 # Tablan Andrei Razvan
 # Volentir Alexandra
 
-# root = Tk()
-# myLabel = Label(root, text="Welcome!")
-# myLabel.pack()
-# root.mainloop()
+root = Tk()
+myLabel = Label(root, text="Welcome!")
+myLabel.pack()
+root.mainloop()
 
 def get_rank(list_of_preferences, person):
     return list_of_preferences.index(person)
