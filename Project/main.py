@@ -21,8 +21,7 @@ def raise_frame(frame):
     frame.tkraise()
 
 
-#def show_solution(solution,number_of_couples, solving_method):
-def show_solution(number_of_couples, solving_method):
+def show_solution(solution,number_of_couples, solving_method):
     for widgets in f6.winfo_children():
         widgets.destroy()
     root.geometry("1024x768")
@@ -41,13 +40,19 @@ def show_solution(number_of_couples, solving_method):
     match_btn.place(x=780, y=40)
     title="The solution using "+solving_method+" is:"
     Label(f6, text=title, borderwidth=0, bg="#FFBBBC", fg='#F04755', font='Montserrat 25 bold').place(x=200,y=100)
-    woman=PhotoImage(file="woman1.png")
     y_man= 200
-    y_woman = 400
-    for index in range(1,int(number_of_couples)+1):
+    y_woman = 200
+    for man, woman in solution.items():
         man_image = PhotoImage(file="man1.png")
-        Label(f6, text=str(index),borderwidth=0, bg="#FFBBBC", fg='#F04755', font='Montserrat 15 bold', image=man_image, compound='center').place(x=200, y=y_man)
+        Label(f6, text=man,borderwidth=0, bg="#FFBBBC", fg='#F04755', font='Montserrat 15 bold', image=man_image, compound='center').place(x=200, y=y_man)
         y_man = y_man + 50
+
+        Label(f6, text="is married to", borderwidth=0, bg="#FFBBBC", fg='#F04755', font='Montserrat 16 bold').place(x=250,
+                                                                                                                  y=y_woman)
+        woman = PhotoImage(file="woman1.png")
+        Label(f6, text=woman, borderwidth=0, bg="#FFBBBC", fg='#F04755', font='Montserrat 15 bold',
+              image=man_image, compound='center').place(x=500, y=y_woman)
+        y_woman = y_woman + 50
 
 
     Label(f6, text="Ⓒ UAIC team", borderwidth=0, bg="#FFBBBC", fg='#F04755', font='Montserrat 16 bold').place(x=450,
@@ -80,9 +85,10 @@ def choose_preferences(number_of_couples, solving_method):
     match_btn.place(x=780, y=40)
 
     def create_preferences():
-        # solution=solve_problem(preferences_men,preferences_women,solving_method)
-        # show_solution(solution,number_of_couples, solving_method)
-        show_solution(number_of_couples, solving_method)
+        preferences_men={}
+        preferences_women={}
+        men_list, women_list = solve_problem(preferences_men, preferences_women, solving_method)
+        show_solution(men_list, number_of_couples, solving_method)
 
     submit_img = PhotoImage(file="submit.png")
     submit_btn = Button(f5, image=submit_img, borderwidth=0, bg="#FFBBBC", command=create_preferences)
@@ -109,9 +115,8 @@ def random_preferences(number_of_couples, solving_method):
     for woman in list_of_women:
         random.shuffle(list_of_men)
         preferences_women[woman] = list(list_of_men)
-    # solution=solve_problem(preferences_men,preferences_women,solving_method)
-    # show_solution(solution,number_of_couples, solving_method)
-    show_solution(number_of_couples, solving_method)
+    men_list,women_list = solve_problem(preferences_men,preferences_women,solving_method)
+    show_solution(men_list,number_of_couples, solving_method)
 
 
 def submit_preferences(number_of_couples, solving_method, preferences):
@@ -302,6 +307,70 @@ class Person:
 '''
 
 
+def get_rank(list_of_preferences, person):
+    return list_of_preferences.index(person)
+
+
+def greedy_approach(men, women, preferences_men, preferences_women):
+    # Storing the number of men and women
+    number_of_men = len(men)
+    number_of_women = len(women)
+
+    # Keeping a list of unmarried men
+    list_of_unmarried_men = men
+
+    # As default, each person is single
+    partner_man = {}
+    for man in men:
+        partner_man[man] = None
+    partner_woman = {}
+    for woman in women:
+        partner_woman[woman] = None
+
+    # Keep the next step of each men
+    next_man_choice = {}
+    for man in men:
+        next_man_choice[man] = 0
+
+    # State is the number of couples, when we have n couples, a list will be returned
+    state = 0
+
+    while state < number_of_men:
+        # Choose a random man
+        random_man = random.choice(list_of_unmarried_men)
+        # Take his actual preference
+        preference_man = preferences_men[random_man][next_man_choice[random_man]]
+        # Check actual woman partner
+        actual_partner_woman = partner_woman[preference_man]
+
+        if actual_partner_woman is None:
+            # If she is single, we can create a couple
+            list_of_unmarried_men.remove(random_man)
+            partner_woman[preference_man] = random_man
+            partner_man[random_man] = preference_man
+            next_man_choice[random_man] += 1
+
+            # Now we have one more couple
+            state += 1
+        else:
+            # She already has a partner
+            # Check the rank of his actual partner
+
+            partner_rank = get_rank(preferences_women[preference_man], actual_partner_woman)
+            random_man_rank = get_rank(preferences_women[preference_man], random_man)
+
+            if random_man_rank > partner_rank:
+                # She gets a new partner
+                list_of_unmarried_men.remove(random_man)
+                list_of_unmarried_men.append(actual_partner_woman)
+                partner_woman[preference_man] = random_man
+                partner_man[random_man] = preference_man
+                next_man_choice[random_man] += 1
+            else:
+                next_man_choice[random_man] += 1
+    return partner_man, partner_woman
+
+
 def create_person_list(dictionary):
     list_of_people = []
     for key in dictionary.keys():
@@ -321,13 +390,15 @@ def read_input(path):
     return preferences
 
 
-def solve_problem(preferences_men, preferences_women, solving_method):
-    # preferences_men = read_input("input_men.txt")
-    # preferences_women = read_input("input_women.txt")
+def solve_problem(preferences_men, preferences_women, solving_metho):
     men = create_person_list(preferences_men)
     women = create_person_list(preferences_women)
+
+    if solving_metho == 'Greedy':
+        return greedy_approach(men, women, preferences_men, preferences_women)
+    else:
+        pass
 
 
 if __name__ == '__main__':
     start_app()
-    # solve_problem()
