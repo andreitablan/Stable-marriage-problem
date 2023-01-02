@@ -22,6 +22,7 @@ def raise_frame(frame):
 
 
 def show_solution(solution,number_of_couples, solving_method):
+    print(solution)
     for widgets in f6.winfo_children():
         widgets.destroy()
     root.geometry("1024x768")
@@ -39,20 +40,23 @@ def show_solution(solution,number_of_couples, solving_method):
     match_btn = Button(f6, image=match_img, borderwidth=0, bg="#FFBBBC", command=match)
     match_btn.place(x=780, y=40)
     title="The solution using "+solving_method+" is:"
-    Label(f6, text=title, borderwidth=0, bg="#FFBBBC", fg='#F04755', font='Montserrat 25 bold').place(x=200,y=100)
+    Label(f6, text=title, borderwidth=0, bg="#FFBBBC", fg='#F04755', font='Montserrat 25 bold').place(x=300,y=100)
     y_man= 200
     y_woman = 200
-    for man, woman in solution.items():
+    men_images=[]
+    women_images=[]
+    for key, value in solution.items():
         man_image = PhotoImage(file="man1.png")
-        Label(f6, text=man,borderwidth=0, bg="#FFBBBC", fg='#F04755', font='Montserrat 15 bold', image=man_image, compound='center').place(x=200, y=y_man)
+        Label(f6, text=key,borderwidth=0, bg="#FFBBBC", fg='#F04755', font='Montserrat 15 bold', image=man_image, compound='center').place(x=350, y=y_man)
         y_man = y_man + 50
-
-        Label(f6, text="is married to", borderwidth=0, bg="#FFBBBC", fg='#F04755', font='Montserrat 16 bold').place(x=250,
-                                                                                                                  y=y_woman)
-        woman = PhotoImage(file="woman1.png")
-        Label(f6, text=woman, borderwidth=0, bg="#FFBBBC", fg='#F04755', font='Montserrat 15 bold',
-              image=man_image, compound='center').place(x=500, y=y_woman)
+        men_images.append(man_image)
+        Label(f6, text="is married to", borderwidth=0, bg="#FFBBBC", fg='#F04755', font='Montserrat 16 bold').place(x=450,
+                                                                                                                  y=y_woman+5)
+        woman_image = PhotoImage(file="woman1.png")
+        Label(f6, text=value, borderwidth=0, bg="#FFBBBC", fg='#F04755', font='Montserrat 15 bold',
+              image=woman_image, compound='center').place(x=650, y=y_woman)
         y_woman = y_woman + 50
+        women_images.append(woman_image)
 
 
     Label(f6, text="Ⓒ UAIC team", borderwidth=0, bg="#FFBBBC", fg='#F04755', font='Montserrat 16 bold').place(x=450,
