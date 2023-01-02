@@ -22,7 +22,7 @@ def raise_frame(frame):
 
 
 def show_solution(solution,number_of_couples, solving_method):
-    print(solution)
+    #print(solution)
     for widgets in f6.winfo_children():
         widgets.destroy()
     root.geometry("1024x768")
@@ -87,12 +87,45 @@ def choose_preferences(number_of_couples, solving_method):
     match_img = PhotoImage(file="make_a_match_btn.png")
     match_btn = Button(f5, image=match_img, borderwidth=0, bg="#FFBBBC", command=match)
     match_btn.place(x=780, y=40)
+    entry_array_men = []
+    entry_array_women = []
 
     def create_preferences():
         preferences_men={}
         preferences_women={}
+
+        index=1
+        for entry in entry_array_men:
+            string_list=entry.get()
+            local_pref=string_list.split(',')
+            preferences_men[index]=local_pref
+            index+=1
+        index = 1
+        for entry in entry_array_women:
+            string_list = entry.get()
+            local_pref = string_list.split(',')
+            preferences_women[chr(index + 64)] = local_pref
+            index += 1
+
         men_list, women_list = solve_problem(preferences_men, preferences_women, solving_method)
         show_solution(men_list, number_of_couples, solving_method)
+    y=200
+
+    for index in range(1,int(number_of_couples)+1):
+        Label(f5, text=index,borderwidth=0, bg="#FFBBBC", fg='#F04755', font='Montserrat 16 bold').place(x=100,y=y)
+        entry_man = Entry(f5)
+        entry_man.place(x=130,y=y)
+        entry_man.config(borderwidth=0, highlightbackground='#F04755', highlightthickness=3, bg="#FFFFFF", fg='#F04755',
+               font='Montserrat 14 bold')
+        entry_array_men.append(entry_man)
+
+        Label(f5, text=chr(index + 64), borderwidth=0, bg="#FFBBBC", fg='#F04755', font='Montserrat 16 bold').place(x=650, y=y)
+        entry_woman = Entry(f5)
+        entry_woman.place(x=670, y=y)
+        entry_woman.config(borderwidth=0, highlightbackground='#F04755', highlightthickness=3, bg="#FFFFFF", fg='#F04755',
+                     font='Montserrat 14 bold')
+        entry_array_women.append(entry_woman)
+        y=y+50
 
     submit_img = PhotoImage(file="submit.png")
     submit_btn = Button(f5, image=submit_img, borderwidth=0, bg="#FFBBBC", command=create_preferences)
