@@ -21,27 +21,37 @@ def raise_frame(frame):
     frame.tkraise()
 
 
-def show_solution():
+#def show_solution(solution,number_of_couples, solving_method):
+def show_solution(number_of_couples, solving_method):
     for widgets in f6.winfo_children():
         widgets.destroy()
     root.geometry("1024x768")
     root.configure(bg='#FFBBBC')
     f6.configure(bg='#FFBBBC')
 
-    Label(f6, text="The solution is", borderwidth=0, bg="#FFBBBC", fg='#F04755', font='Montserrat 25 bold').pack(
-        side=TOP, anchor=W, padx=100, pady=130)
-
-
-
     home_btn = Button(f6, text="Home", borderwidth=0, bg="#FFBBBC", fg='#000000', font='Montserrat 14 bold',
                       command=home)
-    home_btn.place(x=600, y=50)
+    home_btn.pack(padx=590, pady=50)
+
     faq_btn = Button(f6, text="FAQ", borderwidth=0, bg="#FFBBBC", fg='#000000', font='Montserrat 14 bold',
                      command=faq)
     faq_btn.place(x=700, y=50)
     match_img = PhotoImage(file="make_a_match_btn.png")
     match_btn = Button(f6, image=match_img, borderwidth=0, bg="#FFBBBC", command=match)
     match_btn.place(x=780, y=40)
+    title="The solution using "+solving_method+" is:"
+    Label(f6, text=title, borderwidth=0, bg="#FFBBBC", fg='#F04755', font='Montserrat 25 bold').place(x=200,y=100)
+    woman=PhotoImage(file="woman1.png")
+    y_man= 200
+    y_woman = 400
+    for index in range(1,int(number_of_couples)+1):
+        man_image = PhotoImage(file="man1.png")
+        Label(f6, text=str(index),borderwidth=0, bg="#FFBBBC", fg='#F04755', font='Montserrat 15 bold', image=man_image, compound='center').place(x=200, y=y_man)
+        y_man = y_man + 50
+
+
+    Label(f6, text="Ⓒ UAIC team", borderwidth=0, bg="#FFBBBC", fg='#F04755', font='Montserrat 16 bold').place(x=450,
+                                                                                                              y=730)
 
     raise_frame(f6)
     root.mainloop()
@@ -54,18 +64,32 @@ def choose_preferences(number_of_couples, solving_method):
     root.configure(bg='#FFBBBC')
     f5.configure(bg='#FFBBBC')
 
-    Label(f5, text="number of preferences", borderwidth=0, bg="#FFBBBC", fg='#F04755', font='Montserrat 25 bold').pack(
-        side=TOP, anchor=W, padx=100, pady=130)
-
     home_btn = Button(f5, text="Home", borderwidth=0, bg="#FFBBBC", fg='#000000', font='Montserrat 14 bold',
                       command=home)
-    home_btn.place(x=600, y=50)
+    home_btn.pack(padx=600, pady=50)
+    Label(f5, text="Set the preferences", borderwidth=0, bg="#FFBBBC", fg='#F04755', font='Montserrat 25 bold').place(x=350,y=100)
+
+    Label(f5, text="Men", borderwidth=0, bg="#FFBBBC", fg='#F04755', font='Montserrat 25 bold').place(x=200,y=150)
+    Label(f5, text="Women", borderwidth=0, bg="#FFBBBC", fg='#F04755', font='Montserrat 25 bold').place(x=700,y=150)
+
     faq_btn = Button(f5, text="FAQ", borderwidth=0, bg="#FFBBBC", fg='#000000', font='Montserrat 14 bold',
                      command=faq)
     faq_btn.place(x=700, y=50)
     match_img = PhotoImage(file="make_a_match_btn.png")
     match_btn = Button(f5, image=match_img, borderwidth=0, bg="#FFBBBC", command=match)
     match_btn.place(x=780, y=40)
+
+    def create_preferences():
+        # solution=solve_problem(preferences_men,preferences_women,solving_method)
+        # show_solution(solution,number_of_couples, solving_method)
+        show_solution(number_of_couples, solving_method)
+
+    submit_img = PhotoImage(file="submit.png")
+    submit_btn = Button(f5, image=submit_img, borderwidth=0, bg="#FFBBBC", command=create_preferences)
+    submit_btn.place(x=450, y=670)
+
+    Label(f5, text="Ⓒ UAIC team", borderwidth=0, bg="#FFBBBC", fg='#F04755', font='Montserrat 16 bold').place(x=450,
+                                                                                                              y=730)
 
     raise_frame(f5)
     root.mainloop()
@@ -85,7 +109,9 @@ def random_preferences(number_of_couples, solving_method):
     for woman in list_of_women:
         random.shuffle(list_of_men)
         preferences_women[woman] = list(list_of_men)
-    solve_problem(preferences_men,preferences_women,solving_method)
+    # solution=solve_problem(preferences_men,preferences_women,solving_method)
+    # show_solution(solution,number_of_couples, solving_method)
+    show_solution(number_of_couples, solving_method)
 
 
 def submit_preferences(number_of_couples, solving_method, preferences):
@@ -295,9 +321,9 @@ def read_input(path):
     return preferences
 
 
-def solve_problem(preferences_men,preferences_women,solving_method):
-    #preferences_men = read_input("input_men.txt")
-    #preferences_women = read_input("input_women.txt")
+def solve_problem(preferences_men, preferences_women, solving_method):
+    # preferences_men = read_input("input_men.txt")
+    # preferences_women = read_input("input_women.txt")
     men = create_person_list(preferences_men)
     women = create_person_list(preferences_women)
 
