@@ -21,8 +21,8 @@ def raise_frame(frame):
     frame.tkraise()
 
 
-def show_solution(solution,number_of_couples, solving_method):
-    #print(solution)
+def show_solution(solution, number_of_couples, solving_method):
+    # print(solution)
     for widgets in f6.winfo_children():
         widgets.destroy()
     root.geometry("1024x768")
@@ -39,25 +39,26 @@ def show_solution(solution,number_of_couples, solving_method):
     match_img = PhotoImage(file="make_a_match_btn.png")
     match_btn = Button(f6, image=match_img, borderwidth=0, bg="#FFBBBC", command=match)
     match_btn.place(x=780, y=40)
-    title="The solution using "+solving_method+" is:"
-    Label(f6, text=title, borderwidth=0, bg="#FFBBBC", fg='#F04755', font='Montserrat 25 bold').place(x=300,y=100)
-    y_man= 200
+    title = "The solution using " + solving_method + " is:"
+    Label(f6, text=title, borderwidth=0, bg="#FFBBBC", fg='#F04755', font='Montserrat 25 bold').place(x=300, y=100)
+    y_man = 200
     y_woman = 200
-    men_images=[]
-    women_images=[]
+    men_images = []
+    women_images = []
     for key, value in solution.items():
         man_image = PhotoImage(file="man1.png")
-        Label(f6, text=key,borderwidth=0, bg="#FFBBBC", fg='#F04755', font='Montserrat 15 bold', image=man_image, compound='center').place(x=350, y=y_man)
+        Label(f6, text=key, borderwidth=0, bg="#FFBBBC", fg='#F04755', font='Montserrat 15 bold', image=man_image,
+              compound='center').place(x=350, y=y_man)
         y_man = y_man + 50
         men_images.append(man_image)
-        Label(f6, text="is married to", borderwidth=0, bg="#FFBBBC", fg='#F04755', font='Montserrat 16 bold').place(x=450,
-                                                                                                                  y=y_woman+5)
+        Label(f6, text="is married to", borderwidth=0, bg="#FFBBBC", fg='#F04755', font='Montserrat 16 bold').place(
+            x=450,
+            y=y_woman + 5)
         woman_image = PhotoImage(file="woman1.png")
         Label(f6, text=value, borderwidth=0, bg="#FFBBBC", fg='#F04755', font='Montserrat 15 bold',
               image=woman_image, compound='center').place(x=650, y=y_woman)
         y_woman = y_woman + 50
         women_images.append(woman_image)
-
 
     Label(f6, text="Ⓒ UAIC team", borderwidth=0, bg="#FFBBBC", fg='#F04755', font='Montserrat 16 bold').place(x=450,
                                                                                                               y=730)
@@ -76,10 +77,11 @@ def choose_preferences(number_of_couples, solving_method):
     home_btn = Button(f5, text="Home", borderwidth=0, bg="#FFBBBC", fg='#000000', font='Montserrat 14 bold',
                       command=home)
     home_btn.pack(padx=600, pady=50)
-    Label(f5, text="Set the preferences", borderwidth=0, bg="#FFBBBC", fg='#F04755', font='Montserrat 25 bold').place(x=350,y=100)
+    Label(f5, text="Set the preferences", borderwidth=0, bg="#FFBBBC", fg='#F04755', font='Montserrat 25 bold').place(
+        x=350, y=100)
 
-    Label(f5, text="Men", borderwidth=0, bg="#FFBBBC", fg='#F04755', font='Montserrat 25 bold').place(x=200,y=150)
-    Label(f5, text="Women", borderwidth=0, bg="#FFBBBC", fg='#F04755', font='Montserrat 25 bold').place(x=700,y=150)
+    Label(f5, text="Men", borderwidth=0, bg="#FFBBBC", fg='#F04755', font='Montserrat 25 bold').place(x=200, y=150)
+    Label(f5, text="Women", borderwidth=0, bg="#FFBBBC", fg='#F04755', font='Montserrat 25 bold').place(x=700, y=150)
 
     faq_btn = Button(f5, text="FAQ", borderwidth=0, bg="#FFBBBC", fg='#000000', font='Montserrat 14 bold',
                      command=faq)
@@ -91,15 +93,15 @@ def choose_preferences(number_of_couples, solving_method):
     entry_array_women = []
 
     def create_preferences():
-        preferences_men={}
-        preferences_women={}
+        preferences_men = {}
+        preferences_women = {}
 
-        index=1
+        index = 1
         for entry in entry_array_men:
-            string_list=entry.get()
-            local_pref=string_list.split(',')
-            preferences_men[index]=local_pref
-            index+=1
+            string_list = entry.get()
+            local_pref = string_list.split(',')
+            preferences_men[index] = local_pref
+            index += 1
         index = 1
         for entry in entry_array_women:
             string_list = entry.get()
@@ -109,23 +111,26 @@ def choose_preferences(number_of_couples, solving_method):
 
         men_list, women_list = solve_problem(preferences_men, preferences_women, solving_method)
         show_solution(men_list, number_of_couples, solving_method)
-    y=200
 
-    for index in range(1,int(number_of_couples)+1):
-        Label(f5, text=index,borderwidth=0, bg="#FFBBBC", fg='#F04755', font='Montserrat 16 bold').place(x=100,y=y)
+    y = 200
+
+    for index in range(1, int(number_of_couples) + 1):
+        Label(f5, text=index, borderwidth=0, bg="#FFBBBC", fg='#F04755', font='Montserrat 16 bold').place(x=100, y=y)
         entry_man = Entry(f5)
-        entry_man.place(x=130,y=y)
+        entry_man.place(x=130, y=y)
         entry_man.config(borderwidth=0, highlightbackground='#F04755', highlightthickness=3, bg="#FFFFFF", fg='#F04755',
-               font='Montserrat 14 bold')
+                         font='Montserrat 14 bold')
         entry_array_men.append(entry_man)
 
-        Label(f5, text=chr(index + 64), borderwidth=0, bg="#FFBBBC", fg='#F04755', font='Montserrat 16 bold').place(x=650, y=y)
+        Label(f5, text=chr(index + 64), borderwidth=0, bg="#FFBBBC", fg='#F04755', font='Montserrat 16 bold').place(
+            x=650, y=y)
         entry_woman = Entry(f5)
         entry_woman.place(x=670, y=y)
-        entry_woman.config(borderwidth=0, highlightbackground='#F04755', highlightthickness=3, bg="#FFFFFF", fg='#F04755',
-                     font='Montserrat 14 bold')
+        entry_woman.config(borderwidth=0, highlightbackground='#F04755', highlightthickness=3, bg="#FFFFFF",
+                           fg='#F04755',
+                           font='Montserrat 14 bold')
         entry_array_women.append(entry_woman)
-        y=y+50
+        y = y + 50
 
     submit_img = PhotoImage(file="submit.png")
     submit_btn = Button(f5, image=submit_img, borderwidth=0, bg="#FFBBBC", command=create_preferences)
@@ -152,8 +157,8 @@ def random_preferences(number_of_couples, solving_method):
     for woman in list_of_women:
         random.shuffle(list_of_men)
         preferences_women[woman] = list(list_of_men)
-    men_list,women_list = solve_problem(preferences_men,preferences_women,solving_method)
-    show_solution(men_list,number_of_couples, solving_method)
+    men_list, women_list = solve_problem(preferences_men, preferences_women, solving_method)
+    show_solution(men_list, number_of_couples, solving_method)
 
 
 def submit_preferences(number_of_couples, solving_method, preferences):
@@ -236,9 +241,17 @@ def faq():
     Label(f3, text="Questions and Answers", borderwidth=0, bg="#FFBBBC", fg='#F04755', font='Montserrat 25 bold').pack(
         side=TOP, anchor=W, padx=100, pady=130)
     Label(f3,
-          text=" Q: \n A: \n\n Q: \n A: \n\n Q: \n A:",
-          borderwidth=0, bg="#FFBBBC", fg='#F04755', font=('Montserrat 20'), justify=LEFT).pack(side=LEFT, anchor=N,
-                                                                                                padx=50, pady=0)
+          text=" Q: What is the stable marriage problem? \n A: Ahe stable marriage problem (also stable matching problem "
+               "or SMP) is the problem of finding \n a stable matching between two equally sized sets of elements given an"
+               " ordering of preferences \n for each element. \n\n Q: What is a Greedy Algorithm? \n A: A greedy algorithm"
+               " is any algorithm that follows the problem-solving heuristic of making \n the locally optimal choice at "
+               "each stage.[1] In many problems, a greedy strategy does not \n produce an optimal solution, but a greedy "
+               "heuristic can yield locally optimal solutions that \n approximate a globally optimal solution in a reasonable "
+               "amount of time. \n\n Q: What is Backtracking? \n A: Backtracking is a class of algorithms for finding "
+               "solutions to some computational \n problems, notably constraint satisfaction problems, that incrementally "
+               "builds candidates to \n the solutions, and abandons a candidate (backtracks) as soon as it determines that"
+               " the \n candidate cannot possibly be completed to a valid solution",
+          borderwidth=0, bg="#FFBBBC", fg='#F04755', font=('Montserrat 16'), justify=LEFT).place(x=70,y=250)
 
     home_btn = Button(f3, text="Home", borderwidth=0, bg="#FFBBBC", fg='#000000', font='Montserrat 14 bold',
                       command=home)
