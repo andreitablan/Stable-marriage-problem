@@ -67,6 +67,31 @@ def show_solution(solution, number_of_couples, solving_method):
     root.mainloop()
 
 
+def input_from_user_is_correct(preferences_men, preferences_women, number_of_couples):
+    men_correct = []
+    women_correct = []
+    print(preferences_men)
+    print(preferences_women)
+    for index in range(1, int(number_of_couples) + 1):
+        men_correct.append(str(index))
+        women_correct.append(str(chr(index + 64)))
+    men_correct.sort()
+    women_correct.sort()
+    print(men_correct)
+    print(women_correct)
+    for man, list_of_preferences in preferences_men.items():
+        new_list=list_of_preferences.copy()
+        new_list.sort()
+        if new_list != women_correct:
+            return False
+    for woman, list_of_preferences in preferences_women.items():
+        new_list = list_of_preferences.copy()
+        new_list.sort()
+        if new_list != men_correct:
+            return False
+    return True
+
+
 def choose_preferences(number_of_couples, solving_method):
     for widgets in f5.winfo_children():
         widgets.destroy()
@@ -109,8 +134,16 @@ def choose_preferences(number_of_couples, solving_method):
             preferences_women[chr(index + 64)] = local_pref
             index += 1
 
-        men_list, women_list = solve_problem(preferences_men, preferences_women, solving_method)
-        show_solution(men_list, number_of_couples, solving_method)
+        if input_from_user_is_correct(preferences_men, preferences_women, number_of_couples) is True:
+            print("AICI")
+            print(input_from_user_is_correct(preferences_men, preferences_women, number_of_couples))
+            print(preferences_men,
+                  preferences_women)
+            men_list, women_list = solve_problem(preferences_men, preferences_women, solving_method)
+            show_solution(men_list, number_of_couples, solving_method)
+        else:
+            Label(f5, text="The input is incorrect! Please try again!", borderwidth=0, bg="#FFBBBC", fg='#F04755',
+                  font='Montserrat 16 bold').place(x=330, y=650)
 
     y = 200
 
@@ -251,7 +284,7 @@ def faq():
                "solutions to some computational \n problems, notably constraint satisfaction problems, that incrementally "
                "builds candidates to \n the solutions, and abandons a candidate (backtracks) as soon as it determines that"
                " the \n candidate cannot possibly be completed to a valid solution",
-          borderwidth=0, bg="#FFBBBC", fg='#F04755', font=('Montserrat 16'), justify=LEFT).place(x=70,y=250)
+          borderwidth=0, bg="#FFBBBC", fg='#F04755', font=('Montserrat 16'), justify=LEFT).place(x=70, y=250)
 
     home_btn = Button(f3, text="Home", borderwidth=0, bg="#FFBBBC", fg='#000000', font='Montserrat 14 bold',
                       command=home)
