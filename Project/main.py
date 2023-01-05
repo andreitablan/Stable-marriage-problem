@@ -102,8 +102,8 @@ def choose_preferences(number_of_couples, solving_method):
     home_btn = Button(f5, text="Home", borderwidth=0, bg="#FFBBBC", fg='#000000', font='Montserrat 14 bold',
                       command=home)
     home_btn.pack(padx=600, pady=50)
-    Label(f5, text="Set the preferences", borderwidth=0, bg="#FFBBBC", fg='#F04755', font='Montserrat 25 bold').place(
-        x=350, y=100)
+    Label(f5, text="Set the preferences using the format: <A,B,C> for men and <1,2,3> for women.", borderwidth=0, bg="#FFBBBC", fg='#F04755', font='Montserrat 14 bold').place(
+        x=150, y=100)
 
     Label(f5, text="Men", borderwidth=0, bg="#FFBBBC", fg='#F04755', font='Montserrat 25 bold').place(x=200, y=150)
     Label(f5, text="Women", borderwidth=0, bg="#FFBBBC", fg='#F04755', font='Montserrat 25 bold').place(x=700, y=150)
@@ -142,8 +142,8 @@ def choose_preferences(number_of_couples, solving_method):
             men_list, women_list = solve_problem(preferences_men, preferences_women, solving_method)
             show_solution(men_list, number_of_couples, solving_method)
         else:
-            Label(f5, text="The input is incorrect! Please try again!", borderwidth=0, bg="#FFBBBC", fg='#F04755',
-                  font='Montserrat 16 bold').place(x=330, y=650)
+            Label(f5, text="The input is incorrect!", borderwidth=0, bg="#FFBBBC", fg='#F04755',
+                  font='Montserrat 16 bold').place(x=400, y=650)
 
     y = 200
 
@@ -182,7 +182,7 @@ def random_preferences(number_of_couples, solving_method):
     list_of_men = []
     list_of_women = []
     for index in range(1, int(number_of_couples) + 1):
-        list_of_men.append(index)
+        list_of_men.append(str(index))
         list_of_women.append(chr(index + 64))
     for man in list_of_men:
         random.shuffle(list_of_women)
@@ -278,7 +278,7 @@ def faq():
                "or SMP) is the problem of finding \n a stable matching between two equally sized sets of elements given an"
                " ordering of preferences \n for each element. \n\n Q: What is a Greedy Algorithm? \n A: A greedy algorithm"
                " is any algorithm that follows the problem-solving heuristic of making \n the locally optimal choice at "
-               "each stage.[1] In many problems, a greedy strategy does not \n produce an optimal solution, but a greedy "
+               "each stage. In many problems, a greedy strategy does not \n produce an optimal solution, but a greedy "
                "heuristic can yield locally optimal solutions that \n approximate a globally optimal solution in a reasonable "
                "amount of time. \n\n Q: What is Backtracking? \n A: Backtracking is a class of algorithms for finding "
                "solutions to some computational \n problems, notably constraint satisfaction problems, that incrementally "
