@@ -125,7 +125,7 @@ def choose_preferences(number_of_couples, solving_method):
         for entry in entry_array_men:
             string_list = entry.get()
             local_pref = string_list.split(',')
-            preferences_men[index] = local_pref
+            preferences_men[str(index)] = local_pref
             index += 1
         index = 1
         for entry in entry_array_women:
@@ -395,6 +395,11 @@ def get_rank(list_of_preferences, person):
 
 
 def greedy_approach(men, women, preferences_men, preferences_women):
+    print("GREEDY")
+    print(preferences_men)
+    print(preferences_women)
+    print(men)
+    print(women)
     # Storing the number of men and women
     number_of_men = len(men)
     number_of_women = len(women)
