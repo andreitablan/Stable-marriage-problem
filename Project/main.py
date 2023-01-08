@@ -1,4 +1,5 @@
 from tkinter import *
+from Project.backtracking import *
 import random
 from PIL import Image, ImageTk
 
