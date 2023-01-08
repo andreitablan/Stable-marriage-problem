@@ -136,7 +136,7 @@ def choose_preferences(number_of_couples, solving_method):
             index += 1
 
         if input_from_user_is_correct(preferences_men, preferences_women, number_of_couples) is True:
-            men_list, women_list = solve_problem(preferences_men, preferences_women, solving_method)
+            men_list, women_list = solve_problem(number_of_couples,preferences_men, preferences_women, solving_method)
             show_solution(men_list, number_of_couples, solving_method)
         else:
             Label(f5, text="The input is incorrect!", borderwidth=0, bg="#FFBBBC", fg='#F04755',
@@ -187,7 +187,7 @@ def random_preferences(number_of_couples, solving_method):
     for woman in list_of_women:
         random.shuffle(list_of_men)
         preferences_women[woman] = list(list_of_men)
-    men_list, women_list = solve_problem(preferences_men, preferences_women, solving_method)
+    men_list, women_list = solve_problem(number_of_couples,preferences_men, preferences_women, solving_method)
     show_solution(men_list, number_of_couples, solving_method)
 
 
@@ -354,8 +354,7 @@ def description_page():
                "preferences and which algorithm our app should use\n(Greedy or Backtracking).\n\n➋ Second, the program " +
                "runs the algorithm for the given instance and finds a \nresult, considering every person's preferences." +
                "\n\n➌ Finally, the result is displayed on the app's screen.",
-          borderwidth=0, bg="#FFBBBC", fg='#F04755', font=('Montserrat 20'), justify=LEFT).pack(side=LEFT, anchor=N,
-                                                                                                padx=50, pady=0)
+          borderwidth=0, bg="#FFBBBC", fg='#F04755', font=('Montserrat 20'), justify=LEFT).place(x=40,y=300)
     back_arrow = PhotoImage(file="back_arrow.png")
 
     back_btn = Button(f2, text="Back", borderwidth=0, bg="#FFBBBC", fg='#000000', font='Montserrat 14 bold',
@@ -480,7 +479,7 @@ states = list()
 solutions_bkt = list()
 output_solutions = list()
 count = 0
-counter = 1
+counter = 0
 
 
 def ok(q_dict: list, col: int, mp, wp):
@@ -556,11 +555,21 @@ def move(q_dict, i, mp, wp):
 
 def bkt_approach(couples, mp, wp):
     global N
+    global states
+    global solutions_bkt
+    global output_solutions
+    global count
+    global counter
     N = couples
     q = [0] * N
-
+    states = list()
+    solutions_bkt = list()
+    output_solutions = list()
+    count = 0
+    counter = 0
     move(q, 0, mp, wp)
-    time.sleep(3)
+    N = 0
+
     return random.choice(output_solutions), 0
 
 
@@ -576,22 +585,31 @@ def create_bkt_preferences(preferences_men,preferences_women):
     for key,values in preferences_women.items():
         men_list=[]
         for value in values:
-            man= ord (value)-49
-            men_list.append(man)
+            if value != '10':
+                man= ord (value)-49
+                men_list.append(man)
+            else:
+                man = 10
+                men_list.append(man)
         women.append(men_list)
     mp=array(males)
     wp=array(women)
     return mp,wp
 
 
-def solve_problem(preferences_men, preferences_women, solving_metho):
+def solve_problem(number_of_couples,preferences_men, preferences_women, solving_metho):
     men = create_person_list(preferences_men)
     women = create_person_list(preferences_women)
+
     if solving_metho == 'Greedy':
         return greedy_approach(men, women, preferences_men, preferences_women)
     else:
         mp,wp = create_bkt_preferences(preferences_men,preferences_women)
-        return bkt_approach(len(men),mp,wp)
+        print(mp)
+        print(wp)
+        solutie1,solutie2 = bkt_approach(int(number_of_couples), mp, wp)
+        print(solutie1,solutie2)
+        return solutie1,solutie2
 
 
 if __name__ == '__main__':
