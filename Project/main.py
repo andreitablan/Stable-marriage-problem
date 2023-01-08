@@ -1,6 +1,9 @@
 from tkinter import *
 import random
 from PIL import Image, ImageTk
+from numpy import *
+import os
+import time
 
 # FII - AI Project
 # Ciuta Andrei Calin
@@ -70,15 +73,13 @@ def show_solution(solution, number_of_couples, solving_method):
 def input_from_user_is_correct(preferences_men, preferences_women, number_of_couples):
     men_correct = []
     women_correct = []
-    print(preferences_men)
-    print(preferences_women)
+
     for index in range(1, int(number_of_couples) + 1):
         men_correct.append(str(index))
         women_correct.append(str(chr(index + 64)))
     men_correct.sort()
     women_correct.sort()
-    print(men_correct)
-    print(women_correct)
+
     for man, list_of_preferences in preferences_men.items():
         new_list=list_of_preferences.copy()
         new_list.sort()
@@ -135,10 +136,6 @@ def choose_preferences(number_of_couples, solving_method):
             index += 1
 
         if input_from_user_is_correct(preferences_men, preferences_women, number_of_couples) is True:
-            print("AICI")
-            print(input_from_user_is_correct(preferences_men, preferences_women, number_of_couples))
-            print(preferences_men,
-                  preferences_women)
             men_list, women_list = solve_problem(preferences_men, preferences_women, solving_method)
             show_solution(men_list, number_of_couples, solving_method)
         else:
@@ -195,9 +192,6 @@ def random_preferences(number_of_couples, solving_method):
 
 
 def submit_preferences(number_of_couples, solving_method, preferences):
-    print(number_of_couples)
-    print(solving_method)
-    print(preferences)
     if preferences == "Manual":
         choose_preferences(number_of_couples, solving_method)
     else:
@@ -477,15 +471,127 @@ def read_input(path):
     file.close()
     return preferences
 
+'''
+-------------------BKT-----------------------
+'''
+
+N = 0
+states = list()
+solutions_bkt = list()
+output_solutions = list()
+count = 0
+counter = 1
+
+
+def ok(q_dict: list, col: int, mp, wp):
+    for i in range(0, col):
+        if q_dict[col] == q_dict[i]:
+            return False
+
+    for i in range(0, col):
+        if q_dict[col] == q_dict[i]:
+            return False
+
+    for i in range(0, col):
+        if (mp[i][q_dict[col]] < mp[i][q_dict[i]]) and (wp[q_dict[col]][i] < wp[q_dict[col]][col]):
+            return False
+        if (mp[col][q_dict[i]] < mp[col][q_dict[col]]) and (wp[q_dict[i]][col] < wp[q_dict[i]][i]):
+            return False
+    return True
+
+
+def show(q_dict):
+    global count
+    count += 1
+    for i in range(0, N):
+        for j in range(0, N):
+            if q_dict[i] == j:
+                print("Man ", i, " is matched with woman ", j)
+
+
+def get_state(q_dict, sol):
+    global count
+    state = dict()
+    count += 1
+    for i in range(0, N):
+        for j in range(0, N):
+            if q_dict[i] == j:
+                state[i] = j
+    return state, sol
+
+
+def append_state(q_dict, sol):
+    global states
+    states.append((get_state(q_dict, sol)))
+
+
+def append_to_output_possible_solutions(q_dict):
+    global output_solutions
+    global counter
+    state = dict()
+    counter += 1
+    for i in range(0, N):
+        for j in range(0, N):
+            if q_dict[i] == j:
+                state[str(i + 1)] = chr(ord('@') + j + 1)
+                # print(state)
+    output_solutions.append(state)
+
+
+def move(q_dict, i, mp, wp):
+    # create state
+    if i == N:
+        append_state(q_dict, 1)
+        # print("q", q_dict)
+        solutions_bkt.append(get_state(q_dict, 1))
+        append_to_output_possible_solutions(q_dict)
+        # show(q_dict)
+        return
+    append_state(q_dict, 0)
+    for j in range(0, N):
+        q_dict[i] = j
+        if ok(q_dict, i, mp, wp):
+            move(q_dict, i + 1, mp, wp)
+
+
+def bkt_approach(couples, mp, wp):
+    global N
+    N = couples
+    q = [0] * N
+
+    move(q, 0, mp, wp)
+    time.sleep(3)
+    return random.choice(output_solutions), 0
+
+
+def create_bkt_preferences(preferences_men,preferences_women):
+    males=[]
+    women=[]
+    for key,values in preferences_men.items():
+        women_list=[]
+        for value in values:
+            woman= ord (value)-65
+            women_list.append(woman)
+        males.append(women_list)
+    for key,values in preferences_women.items():
+        men_list=[]
+        for value in values:
+            man= ord (value)-49
+            men_list.append(man)
+        women.append(men_list)
+    mp=array(males)
+    wp=array(women)
+    return mp,wp
+
 
 def solve_problem(preferences_men, preferences_women, solving_metho):
     men = create_person_list(preferences_men)
     women = create_person_list(preferences_women)
-
     if solving_metho == 'Greedy':
         return greedy_approach(men, women, preferences_men, preferences_women)
     else:
-        pass
+        mp,wp = create_bkt_preferences(preferences_men,preferences_women)
+        return bkt_approach(len(men),mp,wp)
 
 
 if __name__ == '__main__':
