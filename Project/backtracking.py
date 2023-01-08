@@ -67,7 +67,7 @@ def append_to_output_possible_solutions(q_dict):
 
 def move(q_dict, i, mp, wp):
     # create state
-    if i == 3:
+    if i == N:
         append_state(q_dict, 1)
         # print("q", q_dict)
         solutions_bkt.append(get_state(q_dict, 1))
