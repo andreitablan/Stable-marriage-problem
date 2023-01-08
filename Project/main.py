@@ -596,3 +596,4 @@ def solve_problem(preferences_men, preferences_women, solving_metho):
 
 if __name__ == '__main__':
     start_app()
+
