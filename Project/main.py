@@ -370,17 +370,7 @@ def start_app():
     home()
 
 
-'''
-class Person:
-    def __init__(self, id, preferences, count):
-        self.id = id
-        self.married = False
-        self.preferences = preferences
-        self.state = [0 for x in range(0, count)]
-
-    def set_married(self):
-        self.married = True
-'''
+'''----------GREEDY----------'''
 
 
 def get_rank(list_of_preferences, person):
