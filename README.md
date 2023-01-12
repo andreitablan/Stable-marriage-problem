@@ -5,7 +5,7 @@
 #### Legături relevante:
 - [The Stable Marriage Problem](https://community.wvu.edu/~krsubramani/courses/fa01/random/lecnotes/lecture5.pdf "The Stable Marriage Problem")
 - [Stable Matching: Video](https://www.youtube.com/watch?v=RE5PmdGNgj0 "Stable Matching: Video")
-
+- [App Demo](https://youtu.be/iXtSYavHh7U)
 ## Realizatori
 ###### [Andrei Tablan](https://github.com/andreitablan "Andrei Tablan")
 ###### [Andrei Ciuta](https://github.com/ciuta)
