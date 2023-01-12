@@ -4,6 +4,7 @@ from PIL import Image, ImageTk
 from numpy import *
 import os
 import time
+import sys
 
 # FII - AI Project
 # Ciuta Andrei Calin
@@ -18,14 +19,16 @@ f3 = Frame(root)
 f4 = Frame(root)
 f5 = Frame(root)
 f6 = Frame(root)
+f7 = Frame(root)
+
+number_of_arguments = len(sys.argv)
 
 
 def raise_frame(frame):
     frame.tkraise()
 
 
-def show_solution(solution, number_of_couples, solving_method):
-    # print(solution)
+def show_solution(solution, number_of_couples, solving_method, preferences_men, preferences_women):
     for widgets in f6.winfo_children():
         widgets.destroy()
     root.geometry("1024x768")
@@ -44,11 +47,19 @@ def show_solution(solution, number_of_couples, solving_method):
     match_btn.place(x=780, y=40)
     title = "The solution using " + solving_method + " is:"
     Label(f6, text=title, borderwidth=0, bg="#FFBBBC", fg='#F04755', font='Montserrat 25 bold').place(x=300, y=100)
+    Label(f6, text="Preferences men", borderwidth=0, bg="#FFBBBC", fg='#F04755', font='Montserrat 18 bold').place(x=150,
+                                                                                                                  y=150)
+    Label(f6, text="Preferences women", borderwidth=0, bg="#FFBBBC", fg='#F04755', font='Montserrat 18 bold').place(
+        x=700, y=150)
+
     y_man = 200
     y_woman = 200
+    x_men_preferences = 340 - 20 * int(number_of_couples)
     men_images = []
     women_images = []
     for key, value in solution.items():
+        Label(f6, text=preferences_men[key], borderwidth=0, bg="#FFBBBC", fg='#F04755',
+              font='Montserrat 16 bold').place(x=x_men_preferences, y=y_man + 5)
         man_image = PhotoImage(file="man1.png")
         Label(f6, text=key, borderwidth=0, bg="#FFBBBC", fg='#F04755', font='Montserrat 15 bold', image=man_image,
               compound='center').place(x=350, y=y_man)
@@ -57,15 +68,17 @@ def show_solution(solution, number_of_couples, solving_method):
         Label(f6, text="is married to", borderwidth=0, bg="#FFBBBC", fg='#F04755', font='Montserrat 16 bold').place(
             x=450,
             y=y_woman + 5)
+
         woman_image = PhotoImage(file="woman1.png")
         Label(f6, text=value, borderwidth=0, bg="#FFBBBC", fg='#F04755', font='Montserrat 15 bold',
               image=woman_image, compound='center').place(x=650, y=y_woman)
-        y_woman = y_woman + 50
         women_images.append(woman_image)
+        Label(f6, text=preferences_women[value], borderwidth=0, bg="#FFBBBC", fg='#F04755',
+              font='Montserrat 16 bold').place(x=700, y=y_woman + 5)
+        y_woman = y_woman + 50
 
     Label(f6, text="Ⓒ UAIC team", borderwidth=0, bg="#FFBBBC", fg='#F04755', font='Montserrat 16 bold').place(x=450,
                                                                                                               y=730)
-
     raise_frame(f6)
     root.mainloop()
 
@@ -81,15 +94,15 @@ def input_from_user_is_correct(preferences_men, preferences_women, number_of_cou
     women_correct.sort()
 
     for man, list_of_preferences in preferences_men.items():
-        new_list=list_of_preferences.copy()
+        new_list = list_of_preferences.copy()
         new_list.sort()
         if new_list != women_correct:
-            return False
+            return man
     for woman, list_of_preferences in preferences_women.items():
         new_list = list_of_preferences.copy()
         new_list.sort()
         if new_list != men_correct:
-            return False
+            return woman
     return True
 
 
@@ -103,7 +116,8 @@ def choose_preferences(number_of_couples, solving_method):
     home_btn = Button(f5, text="Home", borderwidth=0, bg="#FFBBBC", fg='#000000', font='Montserrat 14 bold',
                       command=home)
     home_btn.pack(padx=600, pady=50)
-    Label(f5, text="Set the preferences using the format: <A,B,C> for men and <1,2,3> for women.", borderwidth=0, bg="#FFBBBC", fg='#F04755', font='Montserrat 14 bold').place(
+    Label(f5, text="Set the preferences using the format: <A,B,C> for men and <1,2,3> for women.", borderwidth=0,
+          bg="#FFBBBC", fg='#F04755', font='Montserrat 14 bold').place(
         x=150, y=100)
 
     Label(f5, text="Men", borderwidth=0, bg="#FFBBBC", fg='#F04755', font='Montserrat 25 bold').place(x=200, y=150)
@@ -136,11 +150,12 @@ def choose_preferences(number_of_couples, solving_method):
             index += 1
 
         if input_from_user_is_correct(preferences_men, preferences_women, number_of_couples) is True:
-            men_list, women_list = solve_problem(number_of_couples,preferences_men, preferences_women, solving_method)
-            show_solution(men_list, number_of_couples, solving_method)
+            men_list, women_list = solve_problem(number_of_couples, preferences_men, preferences_women, solving_method)
+            show_solution(men_list, number_of_couples, solving_method, preferences_men, preferences_women)
         else:
-            Label(f5, text="The input is incorrect!", borderwidth=0, bg="#FFBBBC", fg='#F04755',
-                  font='Montserrat 16 bold').place(x=400, y=650)
+            person = input_from_user_is_correct(preferences_men, preferences_women, number_of_couples)
+            Label(f5, text="The input is incorrect at person " + person, borderwidth=0, bg="#FFBBBC", fg='#F04755',
+                  font='Montserrat 16 bold').place(x=350, y=650)
 
     y = 200
 
@@ -173,7 +188,7 @@ def choose_preferences(number_of_couples, solving_method):
     root.mainloop()
 
 
-def random_preferences(number_of_couples, solving_method):
+def show_random_preferences(number_of_couples, solving_method):
     preferences_men = {}
     preferences_women = {}
     list_of_men = []
@@ -187,19 +202,69 @@ def random_preferences(number_of_couples, solving_method):
     for woman in list_of_women:
         random.shuffle(list_of_men)
         preferences_women[woman] = list(list_of_men)
-    men_list, women_list = solve_problem(number_of_couples,preferences_men, preferences_women, solving_method)
-    show_solution(men_list, number_of_couples, solving_method)
+
+    for widgets in f7.winfo_children():
+        widgets.destroy()
+    root.geometry("1024x768")
+    root.configure(bg='#FFBBBC')
+    f7.configure(bg='#FFBBBC')
+
+    home_btn = Button(f7, text="Home", borderwidth=0, bg="#FFBBBC", fg='#000000', font='Montserrat 14 bold',
+                      command=home)
+    home_btn.pack(padx=600, pady=50)
+
+    Label(f7, text="Random men preferences", borderwidth=0, bg="#FFBBBC", fg='#F04755', font='Montserrat 25 bold').place(x=50, y=150)
+    Label(f7, text="Random women preferences", borderwidth=0, bg="#FFBBBC", fg='#F04755', font='Montserrat 25 bold').place(x=500, y=150)
+
+    faq_btn = Button(f7, text="FAQ", borderwidth=0, bg="#FFBBBC", fg='#000000', font='Montserrat 14 bold',
+                     command=faq)
+    faq_btn.place(x=700, y=50)
+    match_img = PhotoImage(file="make_a_match_btn.png")
+    match_btn = Button(f7, image=match_img, borderwidth=0, bg="#FFBBBC", command=match)
+    match_btn.place(x=780, y=40)
+
+    y = 200
+
+    for key, value in preferences_men.items():
+        list_of_preferences=""
+        for item in value:
+            list_of_preferences=list_of_preferences + " " + item
+        Label(f7, text=key+':', borderwidth=0, bg="#FFBBBC", fg='#F04755', font='Montserrat 20 bold').place(x=100, y=y)
+        Label(f7, text=list_of_preferences, borderwidth=0, bg="#FFBBBC", fg='#F04755', font='Montserrat 16 bold').place(x=130, y=y+5)
+        y = y + 50
+
+    y=200
+    for key, value in preferences_women.items():
+        list_of_preferences = ""
+        for item in value:
+            list_of_preferences = list_of_preferences + " " + item
+        Label(f7, text=key+':', borderwidth=0, bg="#FFBBBC", fg='#F04755', font='Montserrat 20 bold').place(x=650, y=y)
+        Label(f7, text=":"+ list_of_preferences, borderwidth=0, bg="#FFBBBC", fg='#F04755', font='Montserrat 16 bold').place(x=670, y=y+5)
+        y = y + 50
+
+    men_list, women_list = solve_problem(number_of_couples, preferences_men, preferences_women, solving_method)
+
+    submit_img = PhotoImage(file="submit.png")
+    submit_btn = Button(f7, image=submit_img, borderwidth=0, bg="#FFBBBC",
+                        command=lambda: show_solution(men_list, number_of_couples, solving_method, preferences_men,
+                                                      preferences_women))
+    submit_btn.place(x=450, y=670)
+
+    Label(f7, text="Ⓒ UAIC team", borderwidth=0, bg="#FFBBBC", fg='#F04755', font='Montserrat 16 bold').place(x=450,
+                                                                                                              y=730)
+
+    raise_frame(f7)
+    root.mainloop()
 
 
 def submit_preferences(number_of_couples, solving_method, preferences):
     if preferences == "Manual":
         choose_preferences(number_of_couples, solving_method)
     else:
-        random_preferences(number_of_couples, solving_method)
+        show_random_preferences(number_of_couples, solving_method)
 
 
 def match():
-    print("pressed the match")
     for widgets in f4.winfo_children():
         widgets.destroy()
     root.geometry("1024x768")
@@ -268,7 +333,7 @@ def faq():
     Label(f3, text="Questions and Answers", borderwidth=0, bg="#FFBBBC", fg='#F04755', font='Montserrat 25 bold').pack(
         side=TOP, anchor=W, padx=100, pady=130)
     Label(f3,
-          text=" Q: What is the stable marriage problem? \n A: Ahe stable marriage problem (also stable matching problem "
+          text=" Q: What is the stable marriage problem? \n A: A stable marriage problem (also stable matching problem "
                "or SMP) is the problem of finding \n a stable matching between two equally sized sets of elements given an"
                " ordering of preferences \n for each element. \n\n Q: What is a Greedy Algorithm? \n A: A greedy algorithm"
                " is any algorithm that follows the problem-solving heuristic of making \n the locally optimal choice at "
@@ -277,7 +342,7 @@ def faq():
                "amount of time. \n\n Q: What is Backtracking? \n A: Backtracking is a class of algorithms for finding "
                "solutions to some computational \n problems, notably constraint satisfaction problems, that incrementally "
                "builds candidates to \n the solutions, and abandons a candidate (backtracks) as soon as it determines that"
-               " the \n candidate cannot possibly be completed to a valid solution",
+               " the \n candidate cannot possibly be completed to a valid solution.",
           borderwidth=0, bg="#FFBBBC", fg='#F04755', font=('Montserrat 16'), justify=LEFT).place(x=70, y=250)
 
     home_btn = Button(f3, text="Home", borderwidth=0, bg="#FFBBBC", fg='#000000', font='Montserrat 14 bold',
@@ -297,7 +362,6 @@ def faq():
 def home():
     for widgets in f1.winfo_children():
         widgets.destroy()
-    print("pressed the home")
     root.geometry("1024x768")
     root.configure(bg='#FFBBBC')
     f1.configure(bg='#FFBBBC')
@@ -347,25 +411,26 @@ def description_page():
     root.configure(bg='#FFBBBC')
     f2.configure(bg='#FFBBBC')
 
-    Label(f2, text="How is our app working", borderwidth=0, bg="#FFBBBC", fg='#F04755', font='Montserrat 25 bold').pack(
+    Label(f2, text="How is our app working?", borderwidth=0, bg="#FFBBBC", fg='#F04755',
+          font='Montserrat 25 bold').pack(
         side=TOP, anchor=W, padx=100, pady=130)
     Label(f2,
           text="➊ First the user sends the input using the graphic interface, choosing the boys\nand girls, their " +
                "preferences and which algorithm our app should use\n(Greedy or Backtracking).\n\n➋ Second, the program " +
                "runs the algorithm for the given instance and finds a \nresult, considering every person's preferences." +
                "\n\n➌ Finally, the result is displayed on the app's screen.",
-          borderwidth=0, bg="#FFBBBC", fg='#F04755', font=('Montserrat 20'), justify=LEFT).place(x=40,y=300)
+          borderwidth=0, bg="#FFBBBC", fg='#F04755', font=('Montserrat 20'), justify=LEFT).place(x=40, y=300)
     back_arrow = PhotoImage(file="back_arrow.png")
 
     back_btn = Button(f2, text="Back", borderwidth=0, bg="#FFBBBC", fg='#000000', font='Montserrat 14 bold',
-                      image=back_arrow, command=start_app)
+                      image=back_arrow, command=graphic_interface)
     back_btn.place(x=30, y=30)
     raise_frame(f2)
     root.mainloop()
 
 
-def start_app():
-    for frame in (f1, f2, f3, f4, f5, f6):
+def graphic_interface():
+    for frame in (f1, f2, f3, f4, f5, f6, f7):
         frame.grid(row=0, column=0, sticky='news')
     home()
 
@@ -378,11 +443,6 @@ def get_rank(list_of_preferences, person):
 
 
 def greedy_approach(men, women, preferences_men, preferences_women):
-    print("GREEDY")
-    print(preferences_men)
-    print(preferences_women)
-    print(men)
-    print(women)
     # Storing the number of men and women
     number_of_men = len(men)
     number_of_women = len(women)
@@ -447,18 +507,6 @@ def create_person_list(dictionary):
     for key in dictionary.keys():
         list_of_people.append(key)
     return list_of_people
-
-
-def read_input(path):
-    preferences = {}
-    with open(path) as file:
-        lines = [line.rstrip() for line in file]
-    for line in lines:
-        person = line.split(":")
-        preference_by_person = person[1].split(",")
-        preferences[person[0]] = preference_by_person
-    file.close()
-    return preferences
 
 '''
 -------------------BKT-----------------------
@@ -563,45 +611,114 @@ def bkt_approach(couples, mp, wp):
     return random.choice(output_solutions), 0
 
 
-def create_bkt_preferences(preferences_men,preferences_women):
-    males=[]
-    women=[]
-    for key,values in preferences_men.items():
-        women_list=[]
+def create_bkt_preferences(preferences_men, preferences_women):
+    males = []
+    women = []
+    for key, values in preferences_men.items():
+        women_list = []
         for value in values:
-            woman= ord (value)-65
+            woman = ord(value) - 65
             women_list.append(woman)
         males.append(women_list)
-    for key,values in preferences_women.items():
-        men_list=[]
+    for key, values in preferences_women.items():
+        men_list = []
         for value in values:
             if value != '10':
-                man= ord (value)-49
+                man = ord(value) - 49
                 men_list.append(man)
             else:
                 man = 10
                 men_list.append(man)
         women.append(men_list)
-    mp=array(males)
-    wp=array(women)
-    return mp,wp
+    mp = array(males)
+    wp = array(women)
+    return mp, wp
 
 
-def solve_problem(number_of_couples,preferences_men, preferences_women, solving_metho):
+def solve_problem(number_of_couples, preferences_men, preferences_women, solving_metho):
     men = create_person_list(preferences_men)
     women = create_person_list(preferences_women)
 
     if solving_metho == 'Greedy':
         return greedy_approach(men, women, preferences_men, preferences_women)
     else:
-        mp,wp = create_bkt_preferences(preferences_men,preferences_women)
-        print(mp)
-        print(wp)
-        solutie1,solutie2 = bkt_approach(int(number_of_couples), mp, wp)
-        print(solutie1,solutie2)
-        return solutie1,solutie2
+        mp, wp = create_bkt_preferences(preferences_men, preferences_women)
+        solutie1, solutie2 = bkt_approach(int(number_of_couples), mp, wp)
+        return solutie1, solutie2
+
+
+'''-------------------------------------------------------'''
+
+
+def read_input(path):
+    preferences = {}
+    with open(path) as file:
+        lines = [line.rstrip() for line in file]
+    for line in lines:
+        person = line.split(":")
+        preference_by_person = person[1].split(",")
+        preferences[person[0]] = preference_by_person
+    file.close()
+    return preferences
+
+
+def commands():
+    if number_of_arguments == 1:
+        graphic_interface()
+    elif sys.argv[1]=="-I":
+        preferences_men=read_input(sys.argv[2])
+        preferences_women=read_input(sys.argv[3])
+        number_of_couples=len(preferences_men)
+        greedy=False
+        men_list=[]
+        women_list=[]
+        if sys.argv[4]=="greedy":
+            greedy=True
+        if greedy==True:
+            men_list, women_list=solve_problem(number_of_couples,preferences_men,preferences_women,'Greedy')
+        else:
+            men_list, women_list=solve_problem(number_of_couples,preferences_men,preferences_women,'Backtracking')
+        print("The solution is:")
+        print(men_list)
+
+    elif sys.argv[1]=="-R":
+        number_of_couples = int(sys.argv[2])
+        preferences_men = {}
+        preferences_women = {}
+        list_of_men = []
+        list_of_women = []
+        for index in range(1, int(number_of_couples) + 1):
+            list_of_men.append(str(index))
+            list_of_women.append(chr(index + 64))
+        for man in list_of_men:
+            random.shuffle(list_of_women)
+            preferences_men[man] = list(list_of_women)
+        for woman in list_of_women:
+            random.shuffle(list_of_men)
+            preferences_women[woman] = list(list_of_men)
+        print("Random preferences for men:")
+        print(preferences_men)
+        print("Random preferences for women:")
+        print(preferences_women)
+        greedy = False
+        men_list = []
+        women_list = []
+        if sys.argv[3] == "greedy":
+            greedy = True
+        if greedy == True:
+            men_list, women_list = solve_problem(number_of_couples, preferences_men, preferences_women, 'Greedy')
+        else:
+            men_list, women_list = solve_problem(number_of_couples, preferences_men, preferences_women, 'Backtracking')
+        print("The solution is:")
+        print(men_list)
+
+    else:
+        print("Please type one of the following commands:")
+        print("main.py -I <input_men.txt> <input_women.txt> greedy")
+        print("main.py -I <input_men.txt> <input_women.txt> bkt")
+        print("main.py -R <number_of_people greedy")
+        print("main.py -R <number_of_people> bkt")
 
 
 if __name__ == '__main__':
-    start_app()
-
+    commands()
