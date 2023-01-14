@@ -1,6 +1,16 @@
 from tkinter import *
+import random
 from PIL import Image, ImageTk
-from Project.algo.utils import *
+from numpy import *
+import os
+import time
+import sys
+
+# FII - AI Project
+# Ciuta Andrei Calin
+# Leagan Dan Adrian
+# Tablan Andrei Razvan
+# Volentir Alexandra
 
 root = Tk()
 f1 = Frame(root)
@@ -10,6 +20,8 @@ f4 = Frame(root)
 f5 = Frame(root)
 f6 = Frame(root)
 f7 = Frame(root)
+
+number_of_arguments = len(sys.argv)
 
 
 def raise_frame(frame):
@@ -30,7 +42,7 @@ def show_solution(solution, number_of_couples, solving_method, preferences_men, 
     faq_btn = Button(f6, text="FAQ", borderwidth=0, bg="#FFBBBC", fg='#000000', font='Montserrat 14 bold',
                      command=faq)
     faq_btn.place(x=700, y=50)
-    match_img = PhotoImage(file="resources/make_a_match_btn.png")
+    match_img = PhotoImage(file="Images/make_a_match_btn.png")
     match_btn = Button(f6, image=match_img, borderwidth=0, bg="#FFBBBC", command=match)
     match_btn.place(x=780, y=40)
     title = "The solution using " + solving_method + " is:"
@@ -48,7 +60,7 @@ def show_solution(solution, number_of_couples, solving_method, preferences_men, 
     for key, value in solution.items():
         Label(f6, text=preferences_men[key], borderwidth=0, bg="#FFBBBC", fg='#F04755',
               font='Montserrat 16 bold').place(x=x_men_preferences, y=y_man + 5)
-        man_image = PhotoImage(file="resources/man1.png")
+        man_image = PhotoImage(file="Images/man1.png")
         Label(f6, text=key, borderwidth=0, bg="#FFBBBC", fg='#F04755', font='Montserrat 15 bold', image=man_image,
               compound='center').place(x=350, y=y_man)
         y_man = y_man + 50
@@ -57,7 +69,7 @@ def show_solution(solution, number_of_couples, solving_method, preferences_men, 
             x=450,
             y=y_woman + 5)
 
-        woman_image = PhotoImage(file="resources/woman1.png")
+        woman_image = PhotoImage(file="Images/woman1.png")
         Label(f6, text=value, borderwidth=0, bg="#FFBBBC", fg='#F04755', font='Montserrat 15 bold',
               image=woman_image, compound='center').place(x=650, y=y_woman)
         women_images.append(woman_image)
@@ -114,7 +126,7 @@ def choose_preferences(number_of_couples, solving_method):
     faq_btn = Button(f5, text="FAQ", borderwidth=0, bg="#FFBBBC", fg='#000000', font='Montserrat 14 bold',
                      command=faq)
     faq_btn.place(x=700, y=50)
-    match_img = PhotoImage(file="resources/make_a_match_btn.png")
+    match_img = PhotoImage(file="Images/make_a_match_btn.png")
     match_btn = Button(f5, image=match_img, borderwidth=0, bg="#FFBBBC", command=match)
     match_btn.place(x=780, y=40)
     entry_array_men = []
@@ -165,7 +177,7 @@ def choose_preferences(number_of_couples, solving_method):
         entry_array_women.append(entry_woman)
         y = y + 50
 
-    submit_img = PhotoImage(file="resources/submit.png")
+    submit_img = PhotoImage(file="Images/submit.png")
     submit_btn = Button(f5, image=submit_img, borderwidth=0, bg="#FFBBBC", command=create_preferences)
     submit_btn.place(x=450, y=670)
 
@@ -207,7 +219,7 @@ def show_random_preferences(number_of_couples, solving_method):
     faq_btn = Button(f7, text="FAQ", borderwidth=0, bg="#FFBBBC", fg='#000000', font='Montserrat 14 bold',
                      command=faq)
     faq_btn.place(x=700, y=50)
-    match_img = PhotoImage(file="resources/make_a_match_btn.png")
+    match_img = PhotoImage(file="Images/make_a_match_btn.png")
     match_btn = Button(f7, image=match_img, borderwidth=0, bg="#FFBBBC", command=match)
     match_btn.place(x=780, y=40)
 
@@ -232,7 +244,7 @@ def show_random_preferences(number_of_couples, solving_method):
 
     men_list, women_list = solve_problem(number_of_couples, preferences_men, preferences_women, solving_method)
 
-    submit_img = PhotoImage(file="resources/submit.png")
+    submit_img = PhotoImage(file="Images/submit.png")
     submit_btn = Button(f7, image=submit_img, borderwidth=0, bg="#FFBBBC",
                         command=lambda: show_solution(men_list, number_of_couples, solving_method, preferences_men,
                                                       preferences_women))
@@ -287,7 +299,7 @@ def match():
     preferences.config(borderwidth=0, highlightbackground='#F04755', highlightthickness=3, bg="#FFFFFF", fg='#F04755',
                        font='Montserrat 14 bold')
 
-    submit_img = PhotoImage(file="resources/submit.png")
+    submit_img = PhotoImage(file="Images/submit.png")
     submit_btn = Button(f4, image=submit_img, borderwidth=0, bg="#FFBBBC",
                         command=lambda: submit_preferences(couples_variable.get(), solving_method_variable.get(),
                                                            preferences_variable.get()))
@@ -303,7 +315,7 @@ def match():
                      command=faq)
     faq_btn.place(x=700, y=50)
 
-    match_img = PhotoImage(file="resources/make_a_match_btn.png")
+    match_img = PhotoImage(file="Images/make_a_match_btn.png")
     match_btn = Button(f4, image=match_img, borderwidth=0, bg="#FFBBBC", command=match)
     match_btn.place(x=780, y=40)
 
@@ -339,7 +351,7 @@ def faq():
     faq_btn = Button(f3, text="FAQ", borderwidth=0, bg="#FFBBBC", fg='#000000', font='Montserrat 14 bold',
                      command=faq)
     faq_btn.place(x=700, y=50)
-    match_img = PhotoImage(file="resources/make_a_match_btn.png")
+    match_img = PhotoImage(file="Images/make_a_match_btn.png")
     match_btn = Button(f3, image=match_img, borderwidth=0, bg="#FFBBBC", command=match)
     match_btn.place(x=780, y=40)
 
@@ -353,12 +365,12 @@ def home():
     root.geometry("1024x768")
     root.configure(bg='#FFBBBC')
     f1.configure(bg='#FFBBBC')
-    image = (Image.open("resources/picture.png"))
+    image = (Image.open("Images/picture.png"))
     resized_image = image.resize((480, 370), Image.ANTIALIAS)
     new_image = ImageTk.PhotoImage(resized_image)
     Label(f1, image=new_image, borderwidth=0).place(x=45, y=200)
 
-    lines = (Image.open("resources/lines.png"))
+    lines = (Image.open("Images/lines.png"))
     resized_image_lines = lines.resize((309, 216), Image.ANTIALIAS)
     new_image_lines = ImageTk.PhotoImage(resized_image_lines)
     Label(f1, image=new_image_lines, borderwidth=0).place(x=720, y=170)
@@ -380,11 +392,11 @@ def home():
     faq_btn = Button(f1, text="FAQ", borderwidth=0, bg="#FFBBBC", fg='#000000', font='Montserrat 14 bold',
                      command=faq)
     faq_btn.place(x=700, y=50)
-    match_img = PhotoImage(file="resources/make_a_match_btn.png")
+    match_img = PhotoImage(file="Images/make_a_match_btn.png")
     match_btn = Button(f1, image=match_img, borderwidth=0, bg="#FFBBBC", command=match)
     match_btn.place(x=780, y=40)
 
-    alg_img = PhotoImage(file="resources/alg.png")
+    alg_img = PhotoImage(file="Images/alg.png")
     alg_btn = Button(f1, image=alg_img, borderwidth=0, bg="#FFBBBC", command=description_page)
     alg_btn.place(x=550, y=320)
 
@@ -408,7 +420,7 @@ def description_page():
                "runs the algorithm for the given instance and finds a \nresult, considering every person's preferences." +
                "\n\n➌ Finally, the result is displayed on the app's screen.",
           borderwidth=0, bg="#FFBBBC", fg='#F04755', font=('Montserrat 20'), justify=LEFT).place(x=40, y=300)
-    back_arrow = PhotoImage(file="resources/back_arrow.png")
+    back_arrow = PhotoImage(file="Images/back_arrow.png")
 
     back_btn = Button(f2, text="Back", borderwidth=0, bg="#FFBBBC", fg='#000000', font='Montserrat 14 bold',
                       image=back_arrow, command=graphic_interface)
@@ -421,3 +433,304 @@ def graphic_interface():
     for frame in (f1, f2, f3, f4, f5, f6, f7):
         frame.grid(row=0, column=0, sticky='news')
     home()
+
+
+'''----------GREEDY----------'''
+
+
+def get_rank(list_of_preferences, person):
+    return list_of_preferences.index(person)
+
+
+def greedy_approach(men, women, preferences_men, preferences_women):
+    # Storing the number of men and women
+    number_of_men = len(men)
+    number_of_women = len(women)
+
+    # Keeping a list of unmarried men
+    list_of_unmarried_men = men
+
+    # As default, each person is single
+    partner_man = {}
+    for man in men:
+        partner_man[man] = None
+    partner_woman = {}
+    for woman in women:
+        partner_woman[woman] = None
+
+    # Keep the next step of each men
+    next_man_choice = {}
+    for man in men:
+        next_man_choice[man] = 0
+
+    # State is the number of couples, when we have n couples, a list will be returned
+    state = 0
+
+    while state < number_of_men:
+        # Choose a random man
+        random_man = random.choice(list_of_unmarried_men)
+        # Take his actual preference
+        preference_man = preferences_men[random_man][next_man_choice[random_man]]
+        # Check actual woman partner
+        actual_partner_woman = partner_woman[preference_man]
+
+        if actual_partner_woman is None:
+            # If she is single, we can create a couple
+            list_of_unmarried_men.remove(random_man)
+            partner_woman[preference_man] = random_man
+            partner_man[random_man] = preference_man
+            next_man_choice[random_man] += 1
+
+            # Now we have one more couple
+            state += 1
+        else:
+            # She already has a partner
+            # Check the rank of his actual partner
+
+            partner_rank = get_rank(preferences_women[preference_man], actual_partner_woman)
+            random_man_rank = get_rank(preferences_women[preference_man], random_man)
+
+            if random_man_rank > partner_rank:
+                # She gets a new partner
+                list_of_unmarried_men.remove(random_man)
+                list_of_unmarried_men.append(actual_partner_woman)
+                partner_woman[preference_man] = random_man
+                partner_man[random_man] = preference_man
+                next_man_choice[random_man] += 1
+            else:
+                next_man_choice[random_man] += 1
+    return partner_man, partner_woman
+
+
+def create_person_list(dictionary):
+    list_of_people = []
+    for key in dictionary.keys():
+        list_of_people.append(key)
+    return list_of_people
+
+'''
+-------------------BKT-----------------------
+'''
+
+N = 0
+states = list()
+solutions_bkt = list()
+output_solutions = list()
+count = 0
+counter = 0
+
+
+def ok(q_dict: list, col: int, mp, wp):
+    for i in range(0, col):
+        if q_dict[col] == q_dict[i]:
+            return False
+
+    for i in range(0, col):
+        if q_dict[col] == q_dict[i]:
+            return False
+
+    for i in range(0, col):
+        if (mp[i][q_dict[col]] < mp[i][q_dict[i]]) and (wp[q_dict[col]][i] < wp[q_dict[col]][col]):
+            return False
+        if (mp[col][q_dict[i]] < mp[col][q_dict[col]]) and (wp[q_dict[i]][col] < wp[q_dict[i]][i]):
+            return False
+    return True
+
+
+def show(q_dict):
+    global count
+    count += 1
+    for i in range(0, N):
+        for j in range(0, N):
+            if q_dict[i] == j:
+                print("Man ", i, " is matched with woman ", j)
+
+
+def get_state(q_dict, sol):
+    global count
+    state = dict()
+    count += 1
+    for i in range(0, N):
+        for j in range(0, N):
+            if q_dict[i] == j:
+                state[i] = j
+    return state, sol
+
+
+def append_state(q_dict, sol):
+    global states
+    states.append((get_state(q_dict, sol)))
+
+
+def append_to_output_possible_solutions(q_dict):
+    global output_solutions
+    global counter
+    state = dict()
+    counter += 1
+    for i in range(0, N):
+        for j in range(0, N):
+            if q_dict[i] == j:
+                state[str(i + 1)] = chr(ord('@') + j + 1)
+                # print(state)
+    output_solutions.append(state)
+
+
+def move(q_dict, i, mp, wp):
+    # create state
+    if i == N:
+        append_state(q_dict, 1)
+        # print("q", q_dict)
+        solutions_bkt.append(get_state(q_dict, 1))
+        append_to_output_possible_solutions(q_dict)
+        # show(q_dict)
+        return
+    append_state(q_dict, 0)
+    for j in range(0, N):
+        q_dict[i] = j
+        if ok(q_dict, i, mp, wp):
+            move(q_dict, i + 1, mp, wp)
+
+
+def bkt_approach(couples, mp, wp):
+    global N
+    global states
+    global solutions_bkt
+    global output_solutions
+    global count
+    global counter
+    N = couples
+    q = [0] * N
+    states = list()
+    solutions_bkt = list()
+    output_solutions = list()
+    count = 0
+    counter = 0
+    move(q, 0, mp, wp)
+    N = 0
+
+    return random.choice(output_solutions), 0
+
+
+def create_bkt_preferences(preferences_men, preferences_women):
+    males = []
+    women = []
+    for key, values in preferences_men.items():
+        women_list = []
+        for value in values:
+            woman = ord(value) - 65
+            women_list.append(woman)
+        males.append(women_list)
+    for key, values in preferences_women.items():
+        men_list = []
+        for value in values:
+            if value != '10':
+                man = ord(value) - 49
+                men_list.append(man)
+            else:
+                man = 10
+                men_list.append(man)
+        women.append(men_list)
+    mp = array(males)
+    wp = array(women)
+    return mp, wp
+
+
+def solve_problem(number_of_couples, preferences_men, preferences_women, solving_metho):
+    men = create_person_list(preferences_men)
+    women = create_person_list(preferences_women)
+
+    if solving_metho == 'Greedy':
+        return greedy_approach(men, women, preferences_men, preferences_women)
+    else:
+        mp, wp = create_bkt_preferences(preferences_men, preferences_women)
+        solutie1, solutie2 = bkt_approach(int(number_of_couples), mp, wp)
+        return solutie1, solutie2
+
+
+'''---------------Line commands---------------------------'''
+
+
+def read_input(path):
+    preferences = {}
+    with open(path) as file:
+        lines = [line.rstrip() for line in file]
+    for line in lines:
+        person = line.split(":")
+        preference_by_person = person[1].split(",")
+        preferences[person[0]] = preference_by_person
+    file.close()
+    return preferences
+
+
+def commands():
+    if number_of_arguments == 1:
+        graphic_interface()
+    elif sys.argv[1]=="-I":
+        preferences_men=read_input(sys.argv[2])
+        preferences_women=read_input(sys.argv[3])
+        number_of_couples=len(preferences_men)
+        greedy=False
+        men_list=[]
+        women_list=[]
+        if sys.argv[4]=="greedy":
+            greedy=True
+        if greedy==True:
+            start_time = time.time()
+            men_list, women_list=solve_problem(number_of_couples,preferences_men,preferences_women,'Greedy')
+            end_time = time.time()
+            print("The Greedy algorithm runs in ", end_time - start_time," seconds.")
+        else:
+            start_time = time.time()
+            men_list, women_list=solve_problem(number_of_couples,preferences_men,preferences_women,'Backtracking')
+            end_time = time.time()
+            print("The Backtracking algorithm runs in ", end_time - start_time, " seconds.")
+        print("The solution is:")
+        print(men_list)
+
+    elif sys.argv[1]=="-R":
+        number_of_couples = int(sys.argv[2])
+        preferences_men = {}
+        preferences_women = {}
+        list_of_men = []
+        list_of_women = []
+        for index in range(1, int(number_of_couples) + 1):
+            list_of_men.append(str(index))
+            list_of_women.append(chr(index + 64))
+        for man in list_of_men:
+            random.shuffle(list_of_women)
+            preferences_men[man] = list(list_of_women)
+        for woman in list_of_women:
+            random.shuffle(list_of_men)
+            preferences_women[woman] = list(list_of_men)
+        print("Random preferences for men:")
+        print(preferences_men)
+        print("Random preferences for women:")
+        print(preferences_women)
+        greedy = False
+        men_list = []
+        women_list = []
+        if sys.argv[3] == "greedy":
+            greedy = True
+        if greedy == True:
+            start_time = time.time()
+            men_list, women_list = solve_problem(number_of_couples, preferences_men, preferences_women, 'Greedy')
+            end_time = time.time()
+            print("The Greedy algorithm runs in ", end_time - start_time, " seconds.")
+        else:
+            start_time = time.time()
+            men_list, women_list = solve_problem(number_of_couples, preferences_men, preferences_women, 'Backtracking')
+            end_time = time.time()
+            print("The Greedy algorithm runs in ", end_time - start_time, " seconds.")
+        print("The solution is:")
+        print(men_list)
+
+    else:
+        print("Please type one of the following commands:")
+        print("main.py -I <input_men.txt> <input_women.txt> greedy")
+        print("main.py -I <input_men.txt> <input_women.txt> bkt")
+        print("main.py -R <number_of_people greedy")
+        print("main.py -R <number_of_people> bkt")
+
+
+if __name__ == '__main__':
+    commands()
