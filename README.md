@@ -4,9 +4,12 @@
 - Aplicația trebuie să aibă o interfață grafică în care putem vedea și configura preferințele participanților, precum și potrivirile rezultate.
 ### Cum se rulează aplicația din linia de comandă:
 ```
+# Pornește interfața grafică
 python main.py
+# -I pentru input, inputul pentru barbați, inputul pentru femei, și tipul de algoritm folosit
 pyhton main.py -I <input_men.txt> <input_women.txt> greedy
 python main.py -I <input_men.txt> <input_women.txt> bkt
+# -R pentru a genera random inputul, numarul de persoane, tipul de algoritm folosit
 python main.py -R <number_of_people greedy
 python main.py -R <number_of_people> bkt
 ```
