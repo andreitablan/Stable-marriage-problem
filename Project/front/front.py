@@ -1,6 +1,6 @@
 from tkinter import *
 from PIL import Image, ImageTk
-from algo.utils import *
+from Project.algo.utils import *
 
 root = Tk()
 f1 = Frame(root)

@@ -4,10 +4,10 @@ from numpy import *
 import time
 import sys
 from main import *
-from front.front import *
-from algo.bkt import *
-from algo.greedy import *
-from algo.utils import *
+from Project.front.front import *
+from Project.algo.bkt import *
+from Project.algo.greedy import *
+from Project.algo.utils import *
 
 
 def commands():

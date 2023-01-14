@@ -7,11 +7,19 @@
 # Pornește interfața grafică
 python main.py
 # -I pentru input, inputul pentru barbați, inputul pentru femei, și tipul de algoritm folosit
+<<<<<<< Updated upstream
 pyhton main.py -I <input_men.txt> <input_women.txt> greedy
 python main.py -I <input_men.txt> <input_women.txt> bkt
 # -R pentru a genera random inputul, numarul de persoane, tipul de algoritm folosit
 python main.py -R <number_of_people greedy
 python main.py -R <number_of_people> bkt
+=======
+pyhton Project/main.py -I <input_men.txt> <input_women.txt> greedy
+python Project/main.py -I <input_men.txt> <input_women.txt> bkt
+# -R pentru a genera random inputul, numarul de persoane, tipul de algoritm folosit
+python Project/main.py -R <number_of_people greedy
+python Project/main.py -R <number_of_people> bkt
+>>>>>>> Stashed changes
 ```
 #### Legături relevante:
 - [The Stable Marriage Problem](https://community.wvu.edu/~krsubramani/courses/fa01/random/lecnotes/lecture5.pdf "The Stable Marriage Problem")

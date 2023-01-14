@@ -1,6 +1,6 @@
 from numpy import *
-from algo.greedy import *
-from algo.bkt import *
+from Project.algo.greedy import *
+from Project.algo.bkt import *
 
 
 def create_person_list(dictionary):
