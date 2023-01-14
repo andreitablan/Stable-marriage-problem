@@ -42,7 +42,7 @@ def show_solution(solution, number_of_couples, solving_method, preferences_men, 
     faq_btn = Button(f6, text="FAQ", borderwidth=0, bg="#FFBBBC", fg='#000000', font='Montserrat 14 bold',
                      command=faq)
     faq_btn.place(x=700, y=50)
-    match_img = PhotoImage(file="make_a_match_btn.png")
+    match_img = PhotoImage(file="Images/make_a_match_btn.png")
     match_btn = Button(f6, image=match_img, borderwidth=0, bg="#FFBBBC", command=match)
     match_btn.place(x=780, y=40)
     title = "The solution using " + solving_method + " is:"
@@ -60,7 +60,7 @@ def show_solution(solution, number_of_couples, solving_method, preferences_men, 
     for key, value in solution.items():
         Label(f6, text=preferences_men[key], borderwidth=0, bg="#FFBBBC", fg='#F04755',
               font='Montserrat 16 bold').place(x=x_men_preferences, y=y_man + 5)
-        man_image = PhotoImage(file="man1.png")
+        man_image = PhotoImage(file="Images/man1.png")
         Label(f6, text=key, borderwidth=0, bg="#FFBBBC", fg='#F04755', font='Montserrat 15 bold', image=man_image,
               compound='center').place(x=350, y=y_man)
         y_man = y_man + 50
@@ -69,7 +69,7 @@ def show_solution(solution, number_of_couples, solving_method, preferences_men, 
             x=450,
             y=y_woman + 5)
 
-        woman_image = PhotoImage(file="woman1.png")
+        woman_image = PhotoImage(file="Images/woman1.png")
         Label(f6, text=value, borderwidth=0, bg="#FFBBBC", fg='#F04755', font='Montserrat 15 bold',
               image=woman_image, compound='center').place(x=650, y=y_woman)
         women_images.append(woman_image)
@@ -126,7 +126,7 @@ def choose_preferences(number_of_couples, solving_method):
     faq_btn = Button(f5, text="FAQ", borderwidth=0, bg="#FFBBBC", fg='#000000', font='Montserrat 14 bold',
                      command=faq)
     faq_btn.place(x=700, y=50)
-    match_img = PhotoImage(file="make_a_match_btn.png")
+    match_img = PhotoImage(file="Images/make_a_match_btn.png")
     match_btn = Button(f5, image=match_img, borderwidth=0, bg="#FFBBBC", command=match)
     match_btn.place(x=780, y=40)
     entry_array_men = []
@@ -177,7 +177,7 @@ def choose_preferences(number_of_couples, solving_method):
         entry_array_women.append(entry_woman)
         y = y + 50
 
-    submit_img = PhotoImage(file="submit.png")
+    submit_img = PhotoImage(file="Images/submit.png")
     submit_btn = Button(f5, image=submit_img, borderwidth=0, bg="#FFBBBC", command=create_preferences)
     submit_btn.place(x=450, y=670)
 
@@ -219,7 +219,7 @@ def show_random_preferences(number_of_couples, solving_method):
     faq_btn = Button(f7, text="FAQ", borderwidth=0, bg="#FFBBBC", fg='#000000', font='Montserrat 14 bold',
                      command=faq)
     faq_btn.place(x=700, y=50)
-    match_img = PhotoImage(file="make_a_match_btn.png")
+    match_img = PhotoImage(file="Images/make_a_match_btn.png")
     match_btn = Button(f7, image=match_img, borderwidth=0, bg="#FFBBBC", command=match)
     match_btn.place(x=780, y=40)
 
@@ -244,7 +244,7 @@ def show_random_preferences(number_of_couples, solving_method):
 
     men_list, women_list = solve_problem(number_of_couples, preferences_men, preferences_women, solving_method)
 
-    submit_img = PhotoImage(file="submit.png")
+    submit_img = PhotoImage(file="Images/submit.png")
     submit_btn = Button(f7, image=submit_img, borderwidth=0, bg="#FFBBBC",
                         command=lambda: show_solution(men_list, number_of_couples, solving_method, preferences_men,
                                                       preferences_women))
@@ -299,7 +299,7 @@ def match():
     preferences.config(borderwidth=0, highlightbackground='#F04755', highlightthickness=3, bg="#FFFFFF", fg='#F04755',
                        font='Montserrat 14 bold')
 
-    submit_img = PhotoImage(file="submit.png")
+    submit_img = PhotoImage(file="Images/submit.png")
     submit_btn = Button(f4, image=submit_img, borderwidth=0, bg="#FFBBBC",
                         command=lambda: submit_preferences(couples_variable.get(), solving_method_variable.get(),
                                                            preferences_variable.get()))
@@ -315,7 +315,7 @@ def match():
                      command=faq)
     faq_btn.place(x=700, y=50)
 
-    match_img = PhotoImage(file="make_a_match_btn.png")
+    match_img = PhotoImage(file="Images/make_a_match_btn.png")
     match_btn = Button(f4, image=match_img, borderwidth=0, bg="#FFBBBC", command=match)
     match_btn.place(x=780, y=40)
 
@@ -351,7 +351,7 @@ def faq():
     faq_btn = Button(f3, text="FAQ", borderwidth=0, bg="#FFBBBC", fg='#000000', font='Montserrat 14 bold',
                      command=faq)
     faq_btn.place(x=700, y=50)
-    match_img = PhotoImage(file="make_a_match_btn.png")
+    match_img = PhotoImage(file="Images/make_a_match_btn.png")
     match_btn = Button(f3, image=match_img, borderwidth=0, bg="#FFBBBC", command=match)
     match_btn.place(x=780, y=40)
 
@@ -365,12 +365,12 @@ def home():
     root.geometry("1024x768")
     root.configure(bg='#FFBBBC')
     f1.configure(bg='#FFBBBC')
-    image = (Image.open("picture.png"))
+    image = (Image.open("Images/picture.png"))
     resized_image = image.resize((480, 370), Image.ANTIALIAS)
     new_image = ImageTk.PhotoImage(resized_image)
     Label(f1, image=new_image, borderwidth=0).place(x=45, y=200)
 
-    lines = (Image.open("lines.png"))
+    lines = (Image.open("Images/lines.png"))
     resized_image_lines = lines.resize((309, 216), Image.ANTIALIAS)
     new_image_lines = ImageTk.PhotoImage(resized_image_lines)
     Label(f1, image=new_image_lines, borderwidth=0).place(x=720, y=170)
@@ -392,11 +392,11 @@ def home():
     faq_btn = Button(f1, text="FAQ", borderwidth=0, bg="#FFBBBC", fg='#000000', font='Montserrat 14 bold',
                      command=faq)
     faq_btn.place(x=700, y=50)
-    match_img = PhotoImage(file="make_a_match_btn.png")
+    match_img = PhotoImage(file="Images/make_a_match_btn.png")
     match_btn = Button(f1, image=match_img, borderwidth=0, bg="#FFBBBC", command=match)
     match_btn.place(x=780, y=40)
 
-    alg_img = PhotoImage(file="alg.png")
+    alg_img = PhotoImage(file="Images/alg.png")
     alg_btn = Button(f1, image=alg_img, borderwidth=0, bg="#FFBBBC", command=description_page)
     alg_btn.place(x=550, y=320)
 
@@ -420,7 +420,7 @@ def description_page():
                "runs the algorithm for the given instance and finds a \nresult, considering every person's preferences." +
                "\n\n➌ Finally, the result is displayed on the app's screen.",
           borderwidth=0, bg="#FFBBBC", fg='#F04755', font=('Montserrat 20'), justify=LEFT).place(x=40, y=300)
-    back_arrow = PhotoImage(file="back_arrow.png")
+    back_arrow = PhotoImage(file="Images/back_arrow.png")
 
     back_btn = Button(f2, text="Back", borderwidth=0, bg="#FFBBBC", fg='#000000', font='Montserrat 14 bold',
                       image=back_arrow, command=graphic_interface)
@@ -675,9 +675,15 @@ def commands():
         if sys.argv[4]=="greedy":
             greedy=True
         if greedy==True:
+            start_time = time.time()
             men_list, women_list=solve_problem(number_of_couples,preferences_men,preferences_women,'Greedy')
+            end_time = time.time()
+            print("The Greedy algorithm runs in ", end_time - start_time," seconds.")
         else:
+            start_time = time.time()
             men_list, women_list=solve_problem(number_of_couples,preferences_men,preferences_women,'Backtracking')
+            end_time = time.time()
+            print("The Backtracking algorithm runs in ", end_time - start_time, " seconds.")
         print("The solution is:")
         print(men_list)
 
@@ -706,9 +712,15 @@ def commands():
         if sys.argv[3] == "greedy":
             greedy = True
         if greedy == True:
+            start_time = time.time()
             men_list, women_list = solve_problem(number_of_couples, preferences_men, preferences_women, 'Greedy')
+            end_time = time.time()
+            print("The Greedy algorithm runs in ", end_time - start_time, " seconds.")
         else:
+            start_time = time.time()
             men_list, women_list = solve_problem(number_of_couples, preferences_men, preferences_women, 'Backtracking')
+            end_time = time.time()
+            print("The Greedy algorithm runs in ", end_time - start_time, " seconds.")
         print("The solution is:")
         print(men_list)
 
