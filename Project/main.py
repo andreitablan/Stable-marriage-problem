@@ -647,7 +647,7 @@ def solve_problem(number_of_couples, preferences_men, preferences_women, solving
         return solutie1, solutie2
 
 
-'''-------------------------------------------------------'''
+'''---------------Line commands---------------------------'''
 
 
 def read_input(path):
