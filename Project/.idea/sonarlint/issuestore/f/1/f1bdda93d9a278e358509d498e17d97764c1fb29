@@ -1,0 +1,10 @@
+
+mpython:S1192("NDefine a constant instead of duplicating this literal 'Montserrat 25' 3 times.( €¼“8•ø”Ö0
+fpython:S2208"GImport only needed names or import the module and then use its members.(ï€¢8‘•ø”Ö0
+=python:S125>"Remove this commented out code.(ÃÓôÅ8‘•ø”Ö0
+Jpython:S1172K"+Remove the unused function parameter "men".(øŞ¡Ø8’•ø”Ö0
+Xpython:S1172K"9Remove the unused function parameter "preferences_women".(øŞ¡Ø8‘•ø”Ö0
+Gpython:S1481N"(Remove the unused local variable "man2".(ÏÄ”³8’•ø”Ö0
+Gpython:S1481L")Remove the unused local variable "wives".(™®½8’•ø”Ö0
+Ipython:S1481q"%Remove the unused local variable "x".(Ö È–ÿÿÿÿÿ8“•ø”Ö0
+Ipython:S1481s"%Remove the unused local variable "x".(ı‰¦şÿÿÿÿ8“•ø”Ö0
